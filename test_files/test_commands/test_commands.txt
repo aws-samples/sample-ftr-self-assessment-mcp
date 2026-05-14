@@ -1,0 +1,4 @@
+python3 test_ftr.py --file test_files/FTR_WAFR_FAILING_wellarchitected.pdf --type wafr
+python3 test_ftr.py --file test_files/FTR_WAFR_PASSING_wellarchitected.pdf --type wafr
+python3 test_ftr.py --file test_files/wafr_soc2_report.pdf --type soc2
+python3 test_ftr.py --file test_files/wafr_soc2_report-1.pdf --type soc2

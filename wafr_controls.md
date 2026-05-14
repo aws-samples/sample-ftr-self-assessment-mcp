@@ -9,25 +9,33 @@ A SOC 2 report submitted instead of a WAFR = FAIL. Both conditions must pass for
 
 ---
 
-## WAFR-FTR-002: Zero Active High-Risk Issues (HRIs) in the Security Pillar
+## WAFR-FTR-002: Zero Unmitigated High-Risk Issues (HRIs) in the Security Pillar
 
-Only ACTIVE (open/unresolved) HRIs cause failure. Resolved or closed HRIs do not count.
+HRIs with an improvement plan, remediation recommendation, or "Ask an expert" guidance = PASS.
+Only HRIs with NO plan and NO recommendation of any kind cause failure.
+Resolved or closed HRIs do not count toward failure.
 Medium-Risk Issues (MRIs) do not cause failure regardless of status.
-HRIs marked "in progress" are still active = FAIL.
+Unanswered questions = skip if: notes are empty, or notes contain only blank/unanswered question templates (e.g. "Does X (Yes/No)?:" with no answer after the colon).
+EXCEPTION — FAIL if: notes contain explicit negative answers such as "No", "False", or "Not configured" to security questions (e.g. "Does the default security group restrict all traffic?: No"). Explicit "No" answers prove the partner assessed the question, found a gap, and disclosed it without selecting any best practices or providing a remediation plan. That is an unmitigated risk = FAIL.
+Do NOT fail on blank answer fields — a blank answer means the partner did not fill in the template, which is equivalent to not applicable.
 
 ---
 
-## WAFR-FTR-003: Zero Active High-Risk Issues (HRIs) in the Operational Excellence Pillar
+## WAFR-FTR-003: Zero Unmitigated High-Risk Issues (HRIs) in the Operational Excellence Pillar
 
-Only ACTIVE (open/unresolved) HRIs cause failure. Resolved or closed HRIs do not count.
+HRIs with an improvement plan, remediation recommendation, or "Ask an expert" guidance = PASS.
+Only HRIs with NO plan and NO recommendation of any kind cause failure.
+Resolved or closed HRIs do not count toward failure.
 MRIs do not cause failure regardless of status.
-HRIs marked "in progress" or "planned for remediation" are still active = FAIL.
+Unanswered questions (marked N/A or not applicable) = skip, do not count as failures.
 
 ---
 
-## WAFR-FTR-004: Zero Active High-Risk Issues (HRIs) in the Reliability Pillar
+## WAFR-FTR-004: Zero Unmitigated High-Risk Issues (HRIs) in the Reliability Pillar
 
-Only ACTIVE (open/unresolved) HRIs cause failure. Resolved or closed HRIs do not count.
+HRIs with an improvement plan, remediation recommendation, or "Ask an expert" guidance = PASS.
+Only HRIs with NO plan and NO recommendation of any kind cause failure.
+Resolved or closed HRIs do not count toward failure.
 MRIs do not cause failure regardless of status.
 Common HRI sources: single-AZ deployments, missing backups, insufficient auto-scaling, no DR plan.
-HRIs marked "in progress" or "planned" are still active = FAIL.
+Unanswered questions (marked N/A or not applicable) = skip, do not count as failures.

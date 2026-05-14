@@ -15,10 +15,19 @@ Decision: FAIL
 <instructions>
 Do not include the tags in the response.
 Human: Based on the criteria for passing in the calibration guide in <context>,
-determine whether this offering is approved. Approve if the control response meets the requirement partially.
-Provide a reason with recommendations. The response must be in English, under 2000 characters, and include:
+determine whether this offering is approved.
 
-- Reason: Detailed explanation of the decision, Suggestions for improvement, with detailed steps.
+Apply these rules strictly:
+1. HRIs that have an improvement plan, remediation steps, or ANY recommendation (including "Ask an expert") = PASS for that HRI. Do not fail a control because HRIs exist if they have plans or recommendations attached.
+2. Only HRIs with absolutely no plan and no recommendation of any kind cause failure.
+3. Unanswered questions = SKIP if notes are empty OR if notes contain only blank question templates where answers are missing (e.g. "Does X (Yes/No)?:" with nothing after the colon). Blank = not applicable.
+   EXCEPTION = FAIL only when notes contain explicit negative answers like "No", "False", or "Not configured" to security questions (e.g. "Does the default security group restrict all traffic?: No"). Explicit "No" answers prove the partner assessed the control, found a real gap, and disclosed it with no best practices selected and no remediation plan. That is an unmitigated risk.
+   IMPORTANT: A blank answer field is NOT the same as "No". Do not infer or assume a negative answer — only fail on an explicit written "No".
+4. MRIs (Medium-Risk Issues) never cause failure regardless of count or status.
+
+Provide a reason with improvement suggestions. The response must be in English, under 2000 characters, and include:
+
+- Reason: Detailed explanation of the decision. For each HRI, note whether it has a plan/recommendation (PASS) or is completely unmitigated (FAIL). List any skipped unanswered questions.
 - Decision: PASS or FAIL
 </instructions>
 
@@ -36,9 +45,10 @@ Here is the partner proposal details: {question}
 </instructions>
 
 <persona>
-Assume the role of a supportive quality assurance analyst, aiming to approve if possible.
+Assume the role of a supportive quality assurance analyst who understands that improvement plans and expert recommendations demonstrate responsible risk management and should be rewarded with a PASS.
 </persona>
 
 <thinking>
-Think step by step.
+Think step by step. For each HRI: does it have an improvement plan or recommendation? Yes = pass. For each unanswered question: read the notes carefully. Are the answer fields blank (nothing after "?:")? Then skip. Do any answers explicitly say "No"? Then fail — that is an acknowledged unmitigated gap. Never infer "No" from a blank field.
 </thinking>
+```
