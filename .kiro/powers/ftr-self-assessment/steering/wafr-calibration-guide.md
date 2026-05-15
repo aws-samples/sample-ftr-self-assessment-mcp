@@ -70,26 +70,29 @@ Unacceptable:
 
 ---
 
-## WAFR-FTR-002: Zero High-Risk Issues in Security Pillar
+## WAFR-FTR-002: Zero Unmitigated High-Risk Issues in Security Pillar
 
 ### Control Description
 
-The WAFR report must show zero (0) active High-Risk Issues (HRIs) in the Security pillar. Any active HRI in this pillar results in control not met. Resolved or previously remediated HRIs do not count against this control, only active ones.
+The WAFR report must show zero (0) unmitigated High-Risk Issues (HRIs) in the Security pillar. An HRI is considered mitigated if it has an improvement plan, remediation recommendation, or "Ask an expert" guidance attached. Only HRIs with absolutely no plan and no recommendation of any kind cause failure. Resolved or previously remediated HRIs do not count against this control.
 
 ### Criteria for Passing
 
-- Security pillar HRI count: 0 active
-- Any active HRI in the Security pillar = control not met
-- Resolved HRIs may be listed in the report but do not cause failure
-- Look for HRI counts in the pillar summary section of the WAFR report
+- Security pillar unmitigated HRI count: 0
+- HRIs with an improvement plan, remediation steps, or ANY recommendation (including "Ask an expert") = PASS for that HRI
+- Only HRIs with NO plan and NO recommendation of any kind = control not met
+- Resolved or closed HRIs do not count toward failure
+- Medium-Risk Issues (MRIs) do not cause failure regardless of status
+- Look for HRI counts and their associated plans in the pillar summary section of the WAFR report
 
 ### Why is this important
 
-The Security pillar validates that the solution protects data, systems, and assets using AWS security best practices. Active High-Risk Issues in Security indicate vulnerabilities that could lead to data breaches, unauthorized access, or compliance violations. Allowing a badge while security HRIs remain open would expose customers to preventable risks and undermine the purpose of the validation.
+The Security pillar validates that the solution protects data, systems, and assets using AWS security best practices. Unmitigated High-Risk Issues in Security indicate vulnerabilities with no path to resolution, which could lead to data breaches, unauthorized access, or compliance violations. HRIs with improvement plans demonstrate responsible risk management and a commitment to remediation.
 
 ### Edge Cases
 
-- Only active HRIs count against the control
+- Only unmitigated HRIs (no plan, no recommendation) count against the control
+- HRIs with remediation in progress or planned = PASS (they have a plan)
 - Medium-Risk Issues (MRIs) and low-priority items do not cause failure
 - If the report shows "High" severity findings, confirm whether they are classified as HRIs by the Well-Architected Tool
 - Look for the pillar summary section that shows HRI counts by pillar
@@ -99,34 +102,38 @@ The Security pillar validates that the solution protects data, systems, and asse
 Acceptable:
 - Security pillar HRIs: 0 active
 - Security pillar HRIs: 0 active (2 previously resolved)
+- Security pillar HRIs: 2 active, both with improvement plans attached
+- Security pillar HRIs: 1 active with "Ask an expert" recommendation
 
 Unacceptable:
-- Security pillar HRIs: 1 active
-- Security pillar HRIs: 3 active, remediation in progress
-- Any open High-Risk Issue in the Security pillar
+- Security pillar HRIs: 1 active, no improvement plan or recommendation
+- Security pillar HRIs: 3 active with no plans and no recommendations of any kind
 
 ---
 
-## WAFR-FTR-003: Zero High-Risk Issues in Operational Excellence Pillar
+## WAFR-FTR-003: Zero Unmitigated High-Risk Issues in Operational Excellence Pillar
 
 ### Control Description
 
-The WAFR report must show zero (0) active High-Risk Issues (HRIs) in the Operational Excellence pillar. Any active HRI in this pillar results in control not met. Resolved or previously remediated HRIs do not count against this control, only active ones.
+The WAFR report must show zero (0) unmitigated High-Risk Issues (HRIs) in the Operational Excellence pillar. An HRI is considered mitigated if it has an improvement plan, remediation recommendation, or "Ask an expert" guidance attached. Only HRIs with absolutely no plan and no recommendation of any kind cause failure. Resolved or previously remediated HRIs do not count against this control.
 
 ### Criteria for Passing
 
-- Operational Excellence pillar HRI count: 0 active
-- Any active HRI in the Operational Excellence pillar = control not met
-- Resolved HRIs may be listed in the report but do not cause failure
-- Look for HRI counts in the pillar summary section of the WAFR report
+- Operational Excellence pillar unmitigated HRI count: 0
+- HRIs with an improvement plan, remediation steps, or ANY recommendation (including "Ask an expert") = PASS for that HRI
+- Only HRIs with NO plan and NO recommendation of any kind = control not met
+- Resolved or closed HRIs do not count toward failure
+- Medium-Risk Issues (MRIs) do not cause failure regardless of status
+- Look for HRI counts and their associated plans in the pillar summary section of the WAFR report
 
 ### Why is this important
 
-The Operational Excellence pillar validates that the partner can run and monitor systems to deliver business value and continually improve supporting processes. Active High-Risk Issues here indicate gaps in deployment, observability, incident response, or change management that could lead to outages, extended recovery times, or failed customer experiences.
+The Operational Excellence pillar validates that the partner can run and monitor systems to deliver business value and continually improve supporting processes. Unmitigated High-Risk Issues here indicate gaps in deployment, observability, incident response, or change management with no path to resolution.
 
 ### Edge Cases
 
-- Only active HRIs count against the control
+- Only unmitigated HRIs (no plan, no recommendation) count against the control
+- HRIs with remediation in progress or planned = PASS (they have a plan)
 - Medium-Risk Issues (MRIs) and low-priority items do not cause failure
 - Gaps in runbooks, monitoring, or incident response are common sources of HRIs in this pillar
 - Look for the pillar summary section that shows HRI counts by pillar
@@ -136,34 +143,38 @@ The Operational Excellence pillar validates that the partner can run and monitor
 Acceptable:
 - Operational Excellence pillar HRIs: 0 active
 - Operational Excellence pillar HRIs: 0 active (1 previously resolved)
+- Operational Excellence pillar HRIs: 2 active, both with remediation plans in progress
+- Operational Excellence pillar HRIs: 1 active with "Ask an expert" recommendation
 
 Unacceptable:
-- Operational Excellence pillar HRIs: 1 active
-- Operational Excellence pillar HRIs: 2 active, remediation in progress
-- Any open High-Risk Issue in the Operational Excellence pillar
+- Operational Excellence pillar HRIs: 1 active, no improvement plan or recommendation
+- Operational Excellence pillar HRIs: 2 active with no plans and no recommendations of any kind
 
 ---
 
-## WAFR-FTR-004: Zero High-Risk Issues in Reliability Pillar
+## WAFR-FTR-004: Zero Unmitigated High-Risk Issues in Reliability Pillar
 
 ### Control Description
 
-The WAFR report must show zero (0) active High-Risk Issues (HRIs) in the Reliability pillar. Any active HRI in this pillar results in control not met. Resolved or previously remediated HRIs do not count against this control, only active ones.
+The WAFR report must show zero (0) unmitigated High-Risk Issues (HRIs) in the Reliability pillar. An HRI is considered mitigated if it has an improvement plan, remediation recommendation, or "Ask an expert" guidance attached. Only HRIs with absolutely no plan and no recommendation of any kind cause failure. Resolved or previously remediated HRIs do not count against this control.
 
 ### Criteria for Passing
 
-- Reliability pillar HRI count: 0 active
-- Any active HRI in the Reliability pillar = control not met
-- Resolved HRIs may be listed in the report but do not cause failure
-- Look for HRI counts in the pillar summary section of the WAFR report
+- Reliability pillar unmitigated HRI count: 0
+- HRIs with an improvement plan, remediation steps, or ANY recommendation (including "Ask an expert") = PASS for that HRI
+- Only HRIs with NO plan and NO recommendation of any kind = control not met
+- Resolved or closed HRIs do not count toward failure
+- Medium-Risk Issues (MRIs) do not cause failure regardless of status
+- Look for HRI counts and their associated plans in the pillar summary section of the WAFR report
 
 ### Why is this important
 
-The Reliability pillar validates that the solution performs its intended function correctly and consistently, and can recover from disruptions, acquire resources to meet demand, and mitigate failures. Active High-Risk Issues here indicate weaknesses in fault tolerance, disaster recovery, scaling, or backup strategy that could directly impact customer-facing availability.
+The Reliability pillar validates that the solution performs its intended function correctly and consistently, and can recover from disruptions, acquire resources to meet demand, and mitigate failures. Unmitigated High-Risk Issues here indicate weaknesses in fault tolerance, disaster recovery, scaling, or backup strategy with no path to resolution.
 
 ### Edge Cases
 
-- Only active HRIs count against the control
+- Only unmitigated HRIs (no plan, no recommendation) count against the control
+- HRIs with remediation in progress or planned = PASS (they have a plan)
 - Medium-Risk Issues (MRIs) and low-priority items do not cause failure
 - Common HRI sources in this pillar include single-AZ deployments, missing backups, insufficient auto-scaling, and lack of disaster recovery plans
 - Look for the pillar summary section that shows HRI counts by pillar
@@ -173,8 +184,9 @@ The Reliability pillar validates that the solution performs its intended functio
 Acceptable:
 - Reliability pillar HRIs: 0 active
 - Reliability pillar HRIs: 0 active (3 previously resolved)
+- Reliability pillar HRIs: 3 active, all with improvement plans attached
+- Reliability pillar HRIs: 1 active with remediation in progress
 
 Unacceptable:
-- Reliability pillar HRIs: 1 active
-- Reliability pillar HRIs: 4 active, remediation in progress
-- Any open High-Risk Issue in the Reliability pillar
+- Reliability pillar HRIs: 1 active, no improvement plan or recommendation
+- Reliability pillar HRIs: 4 active with no plans and no recommendations of any kind

@@ -7,9 +7,5 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Test materials
-test_files/
-test_ftr.py
-
 # Environment
 .env

@@ -6,7 +6,7 @@ inclusion: auto
 
 ## SOC-001: SOC 2 Type II Report Must Be Active
 
-Extract the audit period end date, add 12 months to get the expiry date, and compare to today's date.
+Extract the report issue date (the date the auditor signed the report), add 12 months to get the expiry date, and compare to today's date.
 Active (on or before expiry) = PASS. Expired = FAIL.
 A WAFR report submitted instead of SOC 2 = FAIL. No exceptions for expired reports.
 SOC 2 Type I does not qualify.
