@@ -1,6 +1,6 @@
 # FTR Partner Self-Assessment
 
-This project contains the LLM prompt templates and calibration guides used to automate the AWS **Foundational Technical Review (FTR)** partner self-assessment process. It evaluates partner-submitted compliance documents (SOC 2 reports and WAFR reports) against a set of defined controls and returns a structured PASS/FAIL decision with reasoning.
+This project provides a **Kiro Power Tool** that automates the AWS Foundational Technical Review (FTR) partner self-assessment process. It evaluates partner-submitted compliance documents (SOC 2 Type II reports and WAFR reports) against defined controls and returns a structured PASS/FAIL decision with reasoning.
 
 ---
 
@@ -13,26 +13,32 @@ Partners seeking AWS validation must submit evidence for two distinct review tra
 | **SOC 2** | SOC 2 Type II Report | SOC-001 through SOC-005 |
 | **WAFR** | AWS Well-Architected Framework Review Report | WAFR-FTR-001 through WAFR-FTR-004 |
 
-An LLM evaluates each control individually using the calibration guides as context. The prompt instructs the model to act as a supportive QA analyst, approving where possible, and to return a structured response in the format:
-
-```
-Reason: <explanation and improvement suggestions>
-Decision: PASS or FAIL
-```
-
 ---
 
-## Repository Structure
+## Kiro Power Tool
+
+The core of this project is a Kiro power located at `.kiro/powers/ftr-self-assessment/`. When active, it gives Kiro the full calibration criteria to evaluate FTR submissions.
+
+### Structure
 
 ```
-FTRPartnerSelfAssessment/
-├── ftr_prompt.md                    # LLM prompt template used at inference time
-├── soc2_controls.md                 # Condensed SOC 2 control definitions (5 controls)
-├── wafr_controls.md                 # Condensed WAFR control definitions (4 controls)
-└── calibrationguides/
-    ├── SOC2FTRGuide.txt             # Full SOC 2 calibration guide with examples and edge cases
-    └── WAFRFTRGuide.txt             # Full WAFR calibration guide with examples and edge cases
+.kiro/powers/ftr-self-assessment/
+├── POWER.md                              # Power overview, keywords, and usage guide
+└── steering/
+    ├── ftr-prompt-template.md            # LLM prompt template (format + rules)
+    ├── soc2-controls.md                  # SOC 2 control definitions (5 controls)
+    ├── wafr-controls.md                  # WAFR control definitions (4 controls)
+    ├── soc2-calibration-guide.md         # Full SOC 2 guide with examples and edge cases
+    └── wafr-calibration-guide.md         # Full WAFR guide with examples and edge cases
 ```
+
+### How to Use
+
+1. Open this workspace in Kiro
+2. The steering files are set to `inclusion: auto`, so all calibration criteria load automatically
+3. Upload a SOC 2 Type II report or WAFR report (PDF) into chat
+4. Ask Kiro to evaluate the submission
+5. Kiro applies the calibration guide criteria and returns a Reason + Decision per control
 
 ---
 
@@ -59,26 +65,15 @@ FTRPartnerSelfAssessment/
 
 ---
 
-## How It Works
-
-1. **Partner submits** a SOC 2 Type II report or WAFR report as part of the FTR self-assessment.
-2. **The LLM prompt** ([ftr_prompt.md](ftr_prompt.md)) is invoked with:
-   - `{context}` — the relevant control criteria from the calibration guide
-   - `{question}` — the partner's submitted proposal/document details
-3. **The model evaluates** the submission against each control individually using the calibration guide rules.
-4. **Output** is a plain-text response with a `Reason:` explanation and a final `Decision: PASS` or `Decision: FAIL` line.
-
-The model is instructed to be a "supportive QA analyst", it should lean toward PASS when evidence partially meets requirements, providing actionable improvement suggestions when failing.
-
----
-
 ## Key Rules Summary
 
-- Expired reports (SOC 2 or WAFR older than 12 months) always **FAIL** no exceptions.
-- SOC 2 Type I does **not** qualify; must be Type II.
-- Submitting a WAFR report for a SOC 2 control (or vice versa) **FAILS** immediately.
-- For WAFR HRI controls, only **active** (open/unresolved) HRIs cause failure — resolved HRIs are ignored.
-- HRIs marked "in progress" or "planned for remediation" are still considered **active**.
+- Expired reports (SOC 2 or WAFR older than 12 months) always **FAIL** — no exceptions
+- SOC 2 Type I does **not** qualify; must be Type II
+- Submitting a WAFR report for a SOC 2 control (or vice versa) **FAILS** immediately
+- For WAFR HRI controls, only **active** (open/unresolved) HRIs cause failure — resolved HRIs are ignored
+- HRIs with an improvement plan or "Ask an expert" recommendation = **PASS**
+- Medium-Risk Issues (MRIs) **never** cause failure regardless of count or status
+- Unanswered questions = **SKIP** unless notes contain explicit "No" answers
 
 ---
 

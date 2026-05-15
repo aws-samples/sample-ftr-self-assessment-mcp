@@ -1,2 +1,15 @@
 # Ignore the `build/` directory in the package root.
 /build
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Test materials
+test_files/
+test_ftr.py
+
+# Environment
+.env
