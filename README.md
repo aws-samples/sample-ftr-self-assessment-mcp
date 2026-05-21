@@ -1,6 +1,6 @@
-# FTR Partner Self-Assessment
+# FTR Eval MCP (`@asp-sail/ftr-eval-mcp`)
 
-This project provides a **Kiro Power Tool** that automates the AWS Foundational Technical Review (FTR) partner self-assessment process. It evaluates partner-submitted compliance documents (SOC 2 Type II reports and WAFR reports) against defined controls and returns a structured PASS/FAIL decision with reasoning.
+An MCP server and interactive CLI that automates the AWS Foundational Technical Review (FTR) partner self-assessment process. It evaluates partner-submitted compliance documents (SOC 2 Type II reports and WAFR reports) against defined controls and returns structured PASS/FAIL decisions with reasoning.
 
 ---
 
@@ -13,32 +13,163 @@ Partners seeking AWS validation must submit evidence for two distinct review tra
 | **SOC 2** | SOC 2 Type II Report | SOC-001 through SOC-005 |
 | **WAFR** | AWS Well-Architected Framework Review Report | WAFR-FTR-001 through WAFR-FTR-004 |
 
+This package provides two ways to evaluate submissions:
+
+1. **MCP Server** — Exposes evaluation tools to AI assistants (Kiro, Claude, etc.) via the Model Context Protocol
+2. **Interactive CLI** — A terminal-based evaluation workflow with guided prompts, progress spinners, and color-coded results
+
+---
+
+## Prerequisites
+
+- Node.js >= 18.0.0
+- AWS credentials configured (for Bedrock access)
+
+---
+
+## Usage
+
+### MCP Server Mode (default)
+
+Start the MCP server for use with AI assistants:
+
+```bash
+ftr-eval-mcp
+```
+
+With options:
+
+```bash
+ftr-eval-mcp serve --transport stdio --region us-east-1 --model <bedrock-model-id>
+```
+
+### Interactive CLI Mode
+
+Launch the guided evaluation workflow:
+
+```bash
+ftr-eval-mcp evaluate
+```
+
+This will prompt you to:
+1. Select a report type (SOC 2 or WAFR)
+2. Enter the path to your PDF report
+3. Choose a specific control or evaluate all
+
+### Non-Interactive Mode
+
+For scripting and CI/CD pipelines:
+
+```bash
+ftr-eval-mcp evaluate --report-type wafr --file ./path/to/report.pdf
+```
+
+Evaluate a single control:
+
+```bash
+ftr-eval-mcp evaluate --report-type soc2 --file ./report.pdf --control-id SOC-001
+```
+
+### CLI Options
+
+```
+ftr-eval-mcp evaluate --help
+
+Options:
+  --report-type <type>   Report type: soc2 or wafr
+  --file <path>          Path to the PDF report file
+  --control-id <id>      Specific control ID to evaluate (optional)
+  --region <region>      AWS region (default: us-east-1)
+  --model <modelId>      Bedrock model ID
+```
+
+---
+
+## MCP Tools
+
+When running as an MCP server, the following tools are exposed:
+
+| Tool | Description |
+|---|---|
+| `parse_pdf` | Parse a PDF file and extract text content |
+| `get_controls` | Get control definitions for a report type |
+| `get_calibration_guide` | Get the calibration guide for a report type |
+| `evaluate_submission` | Evaluate a PDF submission against controls |
+| `get_prompt_template` | Get the FTR evaluation prompt template |
+
+---
+
+## Development
+
+### Build
+
+```bash
+npm run build
+```
+
+### Run Tests
+
+```bash
+npm test
+```
+
+### Run Locally (without installing globally)
+
+```bash
+npm run build
+node dist/server.js evaluate
+```
+
+### Build Standalone Binaries
+
+```bash
+npm run build:binaries
+```
+
+This produces platform-specific executables in `binaries/` for macOS (ARM/x64), Linux (x64/ARM), and Windows (x64).
+
+---
+
+## Project Structure
+
+```
+src/
+├── server.ts                  # Entry point: commander routing (serve/evaluate)
+├── cli.ts                     # CLI orchestrator (evaluation workflow)
+├── cli/
+│   ├── input-collector.ts     # Interactive prompts and flag validation
+│   ├── credential-validator.ts # AWS credential check via STS
+│   ├── progress-reporter.ts   # Spinner and progress display (ora)
+│   └── results-formatter.ts   # Color-coded results output (chalk)
+├── config.ts                  # Configuration resolution
+├── engine/
+│   ├── evaluation-engine.ts   # Core evaluation orchestration
+│   ├── bedrock-client.ts      # Amazon Bedrock API client
+│   ├── prompt-builder.ts      # LLM prompt construction
+│   └── decision-parser.ts     # Parse LLM responses into decisions
+├── parsers/
+│   └── pdf-parser.ts          # PDF text extraction
+├── registries/
+│   ├── control-registry.ts    # Control definitions
+│   └── calibration-guide-registry.ts # Calibration guides
+├── tools/                     # MCP tool registrations
+│   ├── evaluate-submission.ts
+│   ├── get-calibration-guide.ts
+│   ├── get-controls.ts
+│   ├── get-prompt-template.ts
+│   └── parse-pdf.ts
+├── types.ts                   # Shared TypeScript types
+└── assets/
+    ├── calibration-guides/    # SOC 2 and WAFR calibration guides
+    ├── controls/              # Control definition files
+    └── prompts/               # LLM prompt templates
+```
+
 ---
 
 ## Kiro Power Tool
 
-The core of this project is a Kiro power located at `.kiro/powers/ftr-self-assessment/`. When active, it gives Kiro the full calibration criteria to evaluate FTR submissions.
-
-### Structure
-
-```
-.kiro/powers/ftr-self-assessment/
-├── POWER.md                              # Power overview, keywords, and usage guide
-└── steering/
-    ├── ftr-prompt-template.md            # LLM prompt template (format + rules)
-    ├── soc2-controls.md                  # SOC 2 control definitions (5 controls)
-    ├── wafr-controls.md                  # WAFR control definitions (4 controls)
-    ├── soc2-calibration-guide.md         # Full SOC 2 guide with examples and edge cases
-    └── wafr-calibration-guide.md         # Full WAFR guide with examples and edge cases
-```
-
-### How to Use
-
-1. Open this workspace in Kiro
-2. The steering files are set to `inclusion: auto`, so all calibration criteria load automatically
-3. Upload a SOC 2 Type II report or WAFR report (PDF) into chat
-4. Ask Kiro to evaluate the submission
-5. Kiro applies the calibration guide criteria and returns a Reason + Decision per control
+This project also includes a Kiro power at `.kiro/powers/ftr-self-assessment/` for direct use within the Kiro IDE. The steering files load automatically and give Kiro full calibration criteria to evaluate FTR submissions in chat.
 
 ---
 
@@ -58,29 +189,32 @@ The core of this project is a Kiro power located at `.kiro/powers/ftr-self-asses
 
 | Control | Description |
 |---|---|
-| **WAFR-FTR-001** | Review must be led by an authorized reviewer (AWS employee, WAPP partner, or self-service) AND completed within 12 months |
+| **WAFR-FTR-001** | Review must be led by an authorized reviewer AND completed within 12 months |
 | **WAFR-FTR-002** | Zero active High-Risk Issues (HRIs) in the Security pillar |
 | **WAFR-FTR-003** | Zero active High-Risk Issues (HRIs) in the Operational Excellence pillar |
 | **WAFR-FTR-004** | Zero active High-Risk Issues (HRIs) in the Reliability pillar |
 
 ---
 
-## Key Rules Summary
+## Key Rules
 
-- Expired reports (SOC 2 or WAFR older than 12 months) always **FAIL** — no exceptions
+- Expired reports (SOC 2 or WAFR older than 12 months) always **FAIL**
 - SOC 2 Type I does **not** qualify; must be Type II
 - Submitting a WAFR report for a SOC 2 control (or vice versa) **FAILS** immediately
-- For WAFR HRI controls, only **active** (open/unresolved) HRIs cause failure — resolved HRIs are ignored
-- HRIs with an improvement plan or "Ask an expert" recommendation = **PASS**
-- Medium-Risk Issues (MRIs) **never** cause failure regardless of count or status
-- Unanswered questions = **SKIP** unless notes contain explicit "No" answers
+- Only **active** (open/unresolved) HRIs cause failure — resolved HRIs are ignored
+- Medium-Risk Issues (MRIs) never cause failure regardless of count or status
 
 ---
 
-## Resources
+## Exit Codes
 
-- [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)
-- [AWS Well-Architected Tool](https://aws.amazon.com/well-architected-tool/)
-- [AWS Well-Architected Partner Program (WAPP)](https://aws.amazon.com/partners/programs/well-architected/)
-- [SOC 2 Trust Services Criteria (AICPA)](https://www.aicpa.org/interestareas/frc/assuranceadvisoryservices/trustservices.html)
-- [AWS SOC Reports FAQ](https://aws.amazon.com/compliance/soc-faqs/)
+| Code | Meaning |
+|---|---|
+| 0 | Evaluation completed (regardless of PASS/FAIL), or user cancelled |
+| 1 | Error: AWS credentials not configured, invalid inputs, or system error |
+
+---
+
+## License
+
+UNLICENSED

@@ -7,5 +7,14 @@ __pycache__/
 *.pyc
 *.pyo
 
+# Node.js
+node_modules/
+dist/
+binaries/
+*.tsbuildinfo
+
 # Environment
 .env
+
+#Kiro Specs
+.kiro/specs
