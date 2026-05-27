@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "ftr-eval-mcp": {
+      "command": "node",
+      "args": ["/Volumes/workplace/kratos/src/FTRPartnerSelfAssessment/dist/server.js", "serve"]
+    }
+  }
+}

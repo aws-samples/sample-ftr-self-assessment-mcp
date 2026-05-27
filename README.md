@@ -27,6 +27,44 @@ This package provides two ways to evaluate submissions:
 
 ---
 
+## Configuration
+
+The server uses sensible defaults out of the box. Override via environment variables or CLI flags:
+
+| Environment Variable | CLI Flag | Default | Description |
+|---|---|---|---|
+| `FTR_AWS_REGION` | `--region` | `us-east-1` | AWS region for Bedrock API calls |
+| `FTR_BEDROCK_MODEL` | `--model` | `global.anthropic.claude-opus-4-6-v1` | Bedrock model ID |
+| `FTR_TRANSPORT` | `--transport` | `stdio` | MCP transport: `stdio` or `http` |
+| `FTR_PORT` | `--port` | `3000` | Port for HTTP transport |
+| `FTR_LOG_LEVEL` | N/A | `info` | Log level: `debug`, `info`, `warn`, `error` |
+
+Resolution order (highest priority first): CLI flags → Environment variables → Defaults
+
+Example with a custom region:
+
+```bash
+FTR_AWS_REGION=us-west-2 ftr-eval-mcp
+```
+
+Or in your MCP config:
+
+```json
+{
+  "mcpServers": {
+    "ftr-eval-mcp": {
+      "command": "node",
+      "args": ["dist/server.js", "serve"],
+      "env": {
+        "FTR_AWS_REGION": "eu-west-1"
+      }
+    }
+  }
+}
+```
+
+---
+
 ## Usage
 
 ### MCP Server Mode (default)
