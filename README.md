@@ -63,6 +63,39 @@ Or in your MCP config:
 }
 ```
 
+### MCP Config Levels
+
+You can register this MCP server at different levels depending on your needs:
+
+| Level | Config Path | Scope |
+|---|---|---|
+| **Workspace** | `<project>/.[IDE]/settings/mcp.json` | Only available when this specific project is open |
+| **User (global)** | `~/.[IDE]/settings/mcp.json` | Available across all workspaces for the current user |
+
+**Precedence:** Workspace config overrides user config. If the same server is defined at both levels, the workspace-level definition wins when that project is open. Outside that workspace, the user-level config applies.
+
+**When to use each level:**
+
+- **Workspace** — Best when developing or testing the server locally. The config lives with the project and won't affect other workspaces.
+- **User** — Best when the server is stable and you want it available everywhere without per-project setup.
+
+Example workspace config (`.kiro/settings/mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "ftr-eval-mcp": {
+      "command": "node",
+      "args": ["/path/to/dist/server.js", "serve"],
+      "disabled": false,
+      "autoApprove": ["get_prompt_template", "parse_pdf", "evaluate_submission"]
+    }
+  }
+}
+```
+
+The `autoApprove` array lists tool names that the AI assistant can invoke without prompting for confirmation. Tools not in this list require manual approval before each execution.
+
 ---
 
 ## Usage

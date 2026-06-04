@@ -1,3 +1,8 @@
+---
+name: FTR Self-Assessment
+description: Evaluates AWS Foundational Technical Review (FTR) partner submissions — SOC 2 Type II reports and Well-Architected Framework Reviews — against defined controls, producing automated PASS/FAIL decisions with detailed reasoning.
+---
+
 # FTR Partner Self-Assessment Power
 
 ## Overview

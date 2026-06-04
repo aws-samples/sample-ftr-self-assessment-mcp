@@ -9,7 +9,8 @@
       "disabled": false,
       "autoApprove": [
         "get_prompt_template",
-        "parse_pdf"
+        "parse_pdf",
+        "evaluate_submission"
       ]
     }
   }
