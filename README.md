@@ -1,8 +1,12 @@
-# FTR Eval MCP (`@asp-sail/ftr-eval-mcp`)
+# FTR Partner Self-Assessment MCP Server (`@asp-sail/ftr-eval-mcp`)
 
 An MCP server and interactive CLI that automates the AWS Foundational Technical Review (FTR) partner self-assessment process. It evaluates partner-submitted compliance documents (SOC 2 Type II reports and WAFR reports) against defined controls and returns structured PASS/FAIL decisions with reasoning.
 
----
+## Architecture
+
+The system connects partner-submitted PDF reports to Amazon Bedrock for LLM-powered evaluation. A Model Context Protocol (MCP) server exposes evaluation tools to AI assistants, while a standalone CLI provides a guided terminal workflow. Both paths share a common evaluation engine backed by Bedrock, SOC 2 and WAFR control registries, and calibration guides that shape scoring decisions.
+
+![FTR Partner Self-Assessment Architecture](architecture_diagram/architecture_diagram.png)
 
 ## Overview
 
@@ -11,21 +15,60 @@ Partners seeking AWS validation must submit evidence for two distinct review tra
 | Track | Document Required | Controls Evaluated |
 |---|---|---|
 | **SOC 2** | SOC 2 Type II Report | SOC-001 through SOC-005 |
-| **WAFR** | AWS Well-Architected Framework Review Report | WAFR-FTR-001 through WAFR-FTR-004 |
+| **WAFR** | AWS Well-Architected Framework Review Report | WAFR-FTR-001 through WAFR-FTR-005 |
 
-This package provides two ways to evaluate submissions:
+This package provides three ways to evaluate submissions:
 
 1. **MCP Server** — Exposes evaluation tools to AI assistants (Kiro, Claude, etc.) via the Model Context Protocol
 2. **Interactive CLI** — A terminal-based evaluation workflow with guided prompts, progress spinners, and color-coded results
+3. **Kiro Power** — A native Kiro IDE integration that loads calibration criteria directly into chat, no server or CLI required
 
----
+## Installation
+
+Choose the option that fits your environment.
+
+### Option 1 — npm (requires Node.js >= 18)
+
+```bash
+npm install -g @asp-sail/ftr-eval-mcp
+```
+
+Once installed, the `ftr-eval-mcp` command is available globally:
+
+```bash
+ftr-eval-mcp evaluate
+ftr-eval-mcp serve
+```
+
+### Option 2 — Standalone Binary (no Node.js required)
+
+Download the binary for your platform from the [GitHub Releases](../../releases) page:
+
+| Platform | File |
+|---|---|
+| macOS (Apple Silicon) | `ftr-eval-mcp-macos-arm64` |
+| macOS (Intel) | `ftr-eval-mcp-macos-x64` |
+| Linux x64 | `ftr-eval-mcp-linux-x64` |
+| Linux ARM64 | `ftr-eval-mcp-linux-arm64` |
+| Windows x64 | `ftr-eval-mcp-win-x64.exe` |
+
+**macOS / Linux** — make the binary executable and run it:
+
+```bash
+chmod +x ftr-eval-mcp-macos-arm64
+./ftr-eval-mcp-macos-arm64 evaluate
+```
+
+**Windows** — run it directly:
+
+```cmd
+ftr-eval-mcp-win-x64.exe evaluate
+```
 
 ## Prerequisites
 
-- Node.js >= 18.0.0
 - AWS credentials configured (for Bedrock access)
-
----
+- Node.js >= 18.0.0 (npm install path only — not required for standalone binaries)
 
 ## Configuration
 
@@ -96,8 +139,6 @@ Example workspace config (`.kiro/settings/mcp.json`):
 
 The `autoApprove` array lists tool names that the AI assistant can invoke without prompting for confirmation. Tools not in this list require manual approval before each execution.
 
----
-
 ## Usage
 
 ### MCP Server Mode (default)
@@ -123,6 +164,7 @@ ftr-eval-mcp evaluate
 ```
 
 This will prompt you to:
+
 1. Select a report type (SOC 2 or WAFR)
 2. Enter the path to your PDF report
 3. Choose a specific control or evaluate all
@@ -154,8 +196,6 @@ Options:
   --model <modelId>      Bedrock model ID
 ```
 
----
-
 ## MCP Tools
 
 When running as an MCP server, the following tools are exposed:
@@ -167,8 +207,6 @@ When running as an MCP server, the following tools are exposed:
 | `get_calibration_guide` | Get the calibration guide for a report type |
 | `evaluate_submission` | Evaluate a PDF submission against controls |
 | `get_prompt_template` | Get the FTR evaluation prompt template |
-
----
 
 ## Development
 
@@ -198,8 +236,6 @@ npm run build:binaries
 ```
 
 This produces platform-specific executables in `binaries/` for macOS (ARM/x64), Linux (x64/ARM), and Windows (x64).
-
----
 
 ## Project Structure
 
@@ -236,13 +272,9 @@ src/
     └── prompts/               # LLM prompt templates
 ```
 
----
-
 ## Kiro Power Tool
 
 This project also includes a Kiro power at `.kiro/powers/ftr-self-assessment/` for direct use within the Kiro IDE. The steering files load automatically and give Kiro full calibration criteria to evaluate FTR submissions in chat.
-
----
 
 ## Controls Reference
 
@@ -260,12 +292,11 @@ This project also includes a Kiro power at `.kiro/powers/ftr-self-assessment/` f
 
 | Control | Description |
 |---|---|
-| **WAFR-FTR-001** | Review must be led by an authorized reviewer AND completed within 12 months |
+| **WAFR-FTR-001** | Review must be completed within 12 months |
 | **WAFR-FTR-002** | Zero active High-Risk Issues (HRIs) in the Security pillar |
 | **WAFR-FTR-003** | Zero active High-Risk Issues (HRIs) in the Operational Excellence pillar |
 | **WAFR-FTR-004** | Zero active High-Risk Issues (HRIs) in the Reliability pillar |
-
----
+| **WAFR-FTR-005** | Partner's solution must be identifiable in the WAFR workload name or description |
 
 ## Key Rules
 
@@ -275,8 +306,6 @@ This project also includes a Kiro power at `.kiro/powers/ftr-self-assessment/` f
 - Only **active** (open/unresolved) HRIs cause failure — resolved HRIs are ignored
 - Medium-Risk Issues (MRIs) never cause failure regardless of count or status
 
----
-
 ## Exit Codes
 
 | Code | Meaning |
@@ -284,8 +313,14 @@ This project also includes a Kiro power at `.kiro/powers/ftr-self-assessment/` f
 | 0 | Evaluation completed (regardless of PASS/FAIL), or user cancelled |
 | 1 | Error: AWS credentials not configured, invalid inputs, or system error |
 
----
+## Contributing
+
+See [CONTRIBUTING](CONTRIBUTING.md) for guidelines on bug reports, pull requests, and the code of conduct.
+
+## Security
+
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for information on reporting security issues.
 
 ## License
 
-UNLICENSED
+This library is licensed under the MIT-0 License. See the [LICENSE](LICENSE) file.

@@ -22,93 +22,58 @@ Partners must provide:
 
 ================================================================================
 Requirement:
-2. WAFR-FTR-001: WAFR is Led by an Authorized Reviewer and Completed Within 12 Months
+WAFR-FTR-001: WAFR is Completed Within 12 Months
 ================================================================================
-
+ 
 Control Description:
-The AWS Well-Architected Framework Review must meet BOTH conditions to pass
-this control: (1) the WAFR is led by an AWS employee, a confirmed AWS
-Well-Architected Program Partner (WAPP) listed in the AWS Partner Solution
-Finder, or conducted as a fully self-service review by the partner using the
-AWS Well-Architected Tool, AND (2) the WAFR was completed within the last
+The AWS Well-Architected Framework Review (WAFR) was completed within the last
 12 months from the current date.
-
-
+ 
+ 
 Criteria for Passing:
-
-Reviewer criteria:
-- The WAFR report must identify the reviewing party
-- Acceptable reviewers:
-  - AWS employee (Solutions Architect or equivalent AWS role)
-  - AWS Well-Architected Program Partner (WAPP) verified in the AWS Partner
-    Solution Finder
-  - Partner-led self-service review via the AWS Well-Architected Tool
-- Unacceptable reviewers:
-  - Third parties who are neither AWS employees nor WAPP-listed partners
-    (unless the review is conducted as a self-service review by the partner
-    themselves)
-
-Completion date criteria:
+ 
 - Extract the WAFR completion date from the report
 - Add 12 months to the completion date to determine expiration
 - Current date on or before expiration date = control is met
 - Current date after expiration date = control is not met
 - Example: WAFR completed Nov 30, 2024 -> Active until Nov 30, 2025
-  - Oct 27, 2025 -> still active (met)
-  - Dec 1, 2025 -> expired (not met)
-
-Both conditions must be met. If either fails, the control is not met.
-
+ - Oct 27, 2025 -> still active (met)
+ - Dec 1, 2025 -> expired (not met)
+ 
+The condition must be met. If it fails, the control is not met.
+ 
 Why is this important:
-An authorized reviewer ensures the WAFR is conducted by someone with the
-technical expertise to correctly interpret AWS best practices across the
-Security, Operational Excellence, and Reliability pillars. AWS employees
-and WAPP-listed partners bring verified AWS architectural expertise, while
-the self-service option removes friction for partners with internal AWS
-competency. The 12-month validity window ensures the assessment reflects
+The 12-month validity window ensures the assessment reflects
 the current state of the architecture and current AWS best practices, as
 AWS services and recommendations evolve rapidly.
-
+ 
 Edge Cases:
-- The WAFR report will be analyzed to confirm BOTH the reviewing party and
-  the completion date
-- For WAPP-led reviews, verify the partner is listed in the AWS Partner
-  Solution Finder
-- Self-service reviews conducted by the partner's own team are fully
-  acceptable under the AWS Well-Architected Tool
+- The WAFR report will be analyzed to confirm the completion date
 - If the report shows only a start date but no completion date, use the
-  completion/finalization date from the AWS Well-Architected Tool export
-- If partner provides a SOC 2 report instead of a WAFR report, control FAILS
+ completion/finalization date from the AWS Well-Architected Tool export
+- If partner provides a SOC 2 Type II report instead of a AWS Well-Architected Framework Review (WAFR) report, control FAILS
 - NO EXCEPTIONS for expired reviews
-
+ 
 Technical Enablement Resources:
 - AWS Well-Architected Framework
-  (https://aws.amazon.com/architecture/well-architected/)
+ (https://aws.amazon.com/architecture/well-architected/)
 - AWS Well-Architected Tool
-  (https://aws.amazon.com/well-architected-tool/)
-- AWS Well-Architected Partner Program (WAPP)
-  (https://aws.amazon.com/partners/programs/well-architected/)
-- AWS Partner Solution Finder (https://partners.amazonaws.com/)
+ (https://aws.amazon.com/well-architected-tool/)
 - WAFR Best Practices
-  (https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html)
-
+ (https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html)
+ 
 Example of Acceptable Response:
-- WAFR led by: AWS Solutions Architect; completed March 15, 2025
-  (active until March 15, 2026)
-- WAFR led by: [WAPP-listed Partner Name] confirmed in Partner Solution
-  Finder; completed January 10, 2025 (active until January 10, 2026)
-- WAFR led by: [Partner] via self-service AWS Well-Architected Tool;
-  completed June 1, 2025 (active until June 1, 2026)
-
+- Completed March 15, 2025 (active until March 15, 2026)
+- Completed January 10, 2025 (active until January 10, 2026)
+- Completed November 25, 2025 (active until November 25, 2026)
+- Completed June 1, 2025 (active until June 1, 2026)
+ 
 Example of Unacceptable Response:
-- WAFR led by a third party that is neither an AWS employee nor a
-  WAPP-listed partner (and not conducted as a self-service partner review)
-- No reviewing party identified in the report
 - WAFR completed more than 12 months ago (expired)
 
 ================================================================================
 Requirement:
-3. WAFR-FTR-002: Zero High-Risk Issues in Security Pillar
+WAFR-FTR-002: Zero High-Risk Issues in Security Pillar
 ================================================================================
 
 Control Description:
@@ -161,7 +126,7 @@ Example of Unacceptable Response:
 
 ================================================================================
 Requirement:
-4. WAFR-FTR-003: Zero High-Risk Issues in Operational Excellence Pillar
+WAFR-FTR-003: Zero High-Risk Issues in Operational Excellence Pillar
 ================================================================================
 
 Control Description:
@@ -215,7 +180,7 @@ Example of Unacceptable Response:
 
 ================================================================================
 Requirement:
-5. WAFR-FTR-004: Zero High-Risk Issues in Reliability Pillar
+WAFR-FTR-004: Zero High-Risk Issues in Reliability Pillar
 ================================================================================
 
 Control Description:
@@ -266,6 +231,64 @@ Example of Unacceptable Response:
 - Any HRI count > 0 in Reliability pillar
 - Incomplete pillar coverage: Only Security and Operational Excellence
   pillars reviewed (Reliability not included)
+
+================================================================================
+Requirement:
+WAFR-FTR-005: Partner Solution is in Audit Scope
+================================================================================
+
+Control Description:
+The partner's solution must be explicitly mentioned in the WAFR. The solution
+name must appear in either the workload name or the workload description (or closely match a product/service named
+there) so the review is verifiably tied to the solution being validated.
+
+
+Criteria for Passing:
+- The solution partner is validating against must be identifiable in the
+  WAFR by appearing in the workload name OR the workload description
+- Accept partial or similar name matches (e.g., abbreviations, product line
+  names, parent product names that clearly cover the solution)
+- Either field is sufficient on its own; both is preferred but not required
+- Control is not met if neither the name nor the description references
+  the solution
+
+Why is this important:
+The WAFR must specifically cover the solution being validated through FTR.
+A generic WAFR that does not call out the solution in its workload name or
+description provides no assurance that the Security, Operational Excellence,
+and Reliability findings apply to the product being validated. Naming the
+solution in the workload prevents partners from substituting a review of an
+unrelated workload to satisfy the requirement.
+
+Edge Cases:
+- Partial or similar name matches are acceptable
+- Abbreviations and product line names count as matches
+- Parent-product names (e.g., a platform name that clearly includes the
+  solution) are acceptable when the relationship is unambiguous in the
+  description
+- Look for the solution name in the workload name and the workload
+  description fields of the AWS Well-Architected Tool export
+- If the workload name is generic (e.g., "Production Workload") but the
+  description explicitly identifies the solution, the control is met
+- If neither the name nor the description references the solution, the
+  control is not met
+
+Technical Enablement Resources:
+- AWS Well-Architected Tool — Defining a Workload
+  (https://docs.aws.amazon.com/wellarchitected/latest/userguide/define-workload.html)
+- AWS Well-Architected Tool
+  (https://aws.amazon.com/well-architected-tool/)
+
+Example of Acceptable Response:
+- Solution in scope: solution name appears in the workload name
+- Solution in scope: solution name appears in the workload description
+- Solution in scope: abbreviated or product line name closely matches the
+  workload name or description
+
+Example of Unacceptable Response:
+- Solution name does not appear in either the workload name or description
+- Generic WAFR (e.g., "Production Environment Review") with no reference
+  to the specific solution in name or description
 
 ================================================================================
 END OF GUIDE
