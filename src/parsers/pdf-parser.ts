@@ -1,4 +1,5 @@
 import { promises as fs } from 'node:fs';
+import path from 'node:path';
 import type { ParsePdfOutput } from '../types.js';
 
 // pdf-parse is a CommonJS module without TypeScript types
@@ -18,17 +19,27 @@ export class PdfParser {
    * @throws Error if file does not exist or PDF is corrupted/unreadable
    */
   async parse(filePath: string): Promise<ParsePdfOutput> {
+    const resolvedPath = path.resolve(filePath);
+
+    if (path.extname(resolvedPath).toLowerCase() !== '.pdf') {
+      throw new Error(`Invalid file type: only PDF files are supported`);
+    }
+
+    const MAX_PDF_SIZE = 50 * 1024 * 1024; // 50MB
+    const stats = await fs.stat(resolvedPath).catch(() => null);
+    if (!stats) {
+      throw new Error(`File not found: ${filePath}`);
+    }
+    if (stats.size > MAX_PDF_SIZE) {
+      throw new Error(`PDF exceeds maximum allowed size of 50MB`);
+    }
+
     let dataBuffer: Buffer;
 
     try {
-      dataBuffer = await fs.readFile(filePath);
-    } catch (err: unknown) {
-      if (err instanceof Error && 'code' in err && err.code === 'ENOENT') {
-        throw new Error(`File not found: ${filePath}`);
-      }
-      throw new Error(
-        `Unable to read file: ${filePath}${err instanceof Error ? ` - ${err.message}` : ''}`
-      );
+      dataBuffer = await fs.readFile(resolvedPath);
+    } catch {
+      throw new Error(`Unable to read file: ${filePath}`);
     }
 
     try {
@@ -41,9 +52,7 @@ export class PdfParser {
         page_count: pdf.numpages,
       };
     } catch (err: unknown) {
-      throw new Error(
-        `Failed to parse PDF: ${filePath}${err instanceof Error ? ` - ${err.message}` : ''}`
-      );
+      throw new Error(`Failed to parse PDF: ${filePath}`);
     }
   }
 }

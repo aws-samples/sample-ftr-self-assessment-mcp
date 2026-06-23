@@ -82,12 +82,14 @@ describe('BedrockClient', () => {
     );
   });
 
-  it('should re-throw non-credential errors as-is', async () => {
+  it('should throw a safe message for non-credential errors', async () => {
     const serviceError = new Error('Model not found');
     (serviceError as { name: string }).name = 'ResourceNotFoundException';
     mockSend.mockRejectedValueOnce(serviceError);
 
-    await expect(client.invokeModel('test', 'system')).rejects.toThrow('Model not found');
+    await expect(client.invokeModel('test', 'system')).rejects.toThrow(
+      'Model invocation failed. Please verify your AWS region and model configuration and try again.'
+    );
   });
 
   it('should use the configured region and model ID', async () => {

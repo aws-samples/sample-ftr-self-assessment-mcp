@@ -28,9 +28,22 @@ export class PromptBuilder {
 
     const prompt = this.templateBody
       .replace('{context}', datedContext)
-      .replace('{question}', pdfText);
+      .replace('{question}', this.sanitize(pdfText));
 
     return { prompt, systemPrompt: this.systemPrompt };
+  }
+
+  private sanitize(text: string): string {
+    // Strip zero-width/invisible Unicode characters used to hide injection payloads
+    let cleaned = text
+      .replace(/[​-‏﻿‪-‮]/g, '')
+      .replace(/[-]/g, '');
+    // Escape prompt boundary tags so attacker content cannot break out of <question>
+    cleaned = cleaned.replace(
+      /<\/?(?:context|question|instructions|persona|thinking|amazon-bedrock-guardrails-guardContent)>/gi,
+      '[TAG_REMOVED]'
+    );
+    return cleaned;
   }
 
   /**

@@ -42,12 +42,11 @@ describe('PdfParser', () => {
       );
     });
 
-    it('should throw an error for a corrupted/non-PDF file', async () => {
-      // Use a non-PDF file (e.g., the tsconfig.json) to simulate a corrupted PDF
+    it('should throw an error for a non-PDF file extension', async () => {
       const filePath = path.resolve(__dirname, '../../tsconfig.json');
 
       await expect(parser.parse(filePath)).rejects.toThrow(
-        /Failed to parse PDF/
+        'Invalid file type: only PDF files are supported'
       );
     });
   });

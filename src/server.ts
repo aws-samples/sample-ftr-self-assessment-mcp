@@ -134,7 +134,16 @@ export async function startMcpServer(options: Record<string, string | undefined>
 
         if (transport) {
           let body = '';
+          let bodySize = 0;
+          const MAX_BODY_SIZE = 1 * 1024 * 1024; // 1MB
           req.on('data', (chunk: Buffer) => {
+            bodySize += chunk.length;
+            if (bodySize > MAX_BODY_SIZE) {
+              res.writeHead(413, { 'Content-Type': 'application/json' });
+              res.end(JSON.stringify({ error: 'Request body too large' }));
+              req.destroy();
+              return;
+            }
             body += chunk.toString();
           });
           req.on('end', async () => {
@@ -155,9 +164,13 @@ export async function startMcpServer(options: Record<string, string | undefined>
       }
     });
 
-    httpServer.listen(config.port, () => {
+    httpServer.headersTimeout = 10000;
+    httpServer.requestTimeout = 30000;
+    httpServer.keepAliveTimeout = 5000;
+
+    httpServer.listen(config.port, '127.0.0.1', () => {
       console.error(
-        `[info] FTR MCP Server running on HTTP+SSE transport at port ${config.port}`
+        `[info] FTR MCP Server running on HTTP+SSE transport at 127.0.0.1:${config.port}`
       );
     });
   }

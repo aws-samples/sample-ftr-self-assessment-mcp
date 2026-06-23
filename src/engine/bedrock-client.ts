@@ -55,7 +55,10 @@ export class BedrockClient {
     });
 
     try {
-      const response = await this.client.send(command);
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 120000);
+      const response = await this.client.send(command, { abortSignal: controller.signal });
+      clearTimeout(timeout);
       const responseBody = JSON.parse(new TextDecoder().decode(response.body));
       return responseBody.content[0].text;
     } catch (error: unknown) {
@@ -64,7 +67,7 @@ export class BedrockClient {
           'AWS credentials are not configured. Please configure AWS credentials before running evaluations.'
         );
       }
-      throw error;
+      throw new Error('Model invocation failed. Please verify your AWS region and model configuration and try again.');
     }
   }
 }

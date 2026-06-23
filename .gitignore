@@ -18,3 +18,6 @@ binaries/
 
 #Kiro Specs
 .kiro/specs
+
+# CSE security scanner artifacts (auto-added by cse init)
+.security-scan/
