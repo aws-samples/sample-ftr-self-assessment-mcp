@@ -54,11 +54,10 @@ export class BedrockClient {
       body: requestBody,
     });
 
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 120000);
     try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 120000);
       const response = await this.client.send(command, { abortSignal: controller.signal });
-      clearTimeout(timeout);
       const responseBody = JSON.parse(new TextDecoder().decode(response.body));
       return responseBody.content[0].text;
     } catch (error: unknown) {
@@ -68,6 +67,8 @@ export class BedrockClient {
         );
       }
       throw new Error('Model invocation failed. Please verify your AWS region and model configuration and try again.');
+    } finally {
+      clearTimeout(timeout);
     }
   }
 }

@@ -42,6 +42,11 @@ export class PdfParser {
       throw new Error(`Unable to read file: ${filePath}`);
     }
 
+    // Validate PDF magic bytes (%PDF-) to prevent processing disguised files
+    if (dataBuffer.length < 5 || dataBuffer.slice(0, 5).toString('ascii') !== '%PDF-') {
+      throw new Error(`Invalid file type: only PDF files are supported`);
+    }
+
     try {
       const pdf = await pdfParse(dataBuffer, { password: '' });
       const text: string = pdf.text ?? '';
