@@ -34,10 +34,12 @@ export class PromptBuilder {
   }
 
   private sanitize(text: string): string {
-    // Strip zero-width/invisible Unicode characters used to hide injection payloads
+    // Strip zero-width/invisible Unicode chars used to hide injection payloads
+    // U+200B-U+200F: zero-width spaces, U+FEFF: BOM, U+202A-U+202E: bidi controls
+    // U+E0000-U+E007F: Unicode tags block
     let cleaned = text
-      .replace(/[​-‏﻿‪-‮]/g, '')
-      .replace(/[-]/g, '');
+      .replace(/[\u200B-\u200F\uFEFF\u202A-\u202E]/g, '')
+      .replace(/[\uE000-\uF8FF]/gu, '');
     // Escape prompt boundary tags so attacker content cannot break out of <question>
     cleaned = cleaned.replace(
       /<\/?(?:context|question|instructions|persona|thinking|amazon-bedrock-guardrails-guardContent)>/gi,
