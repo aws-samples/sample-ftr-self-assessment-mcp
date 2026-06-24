@@ -16,8 +16,28 @@ binaries/
 # Environment
 .env
 
+# Test data (PDFs and test scripts — not for public distribution)
+test_files/
+
+# macOS metadata
+.DS_Store
+
+# Amazon-internal Brazil build config
+Config
+
+# Amazon-internal CSE security scanner hook
+pre-cr
+
+# IDE and local tool config (contains machine-specific paths)
+.claude/
+.vscode/
+.kiro/settings/
+
 #Kiro Specs
 .kiro/specs
 
 # CSE security scanner artifacts (auto-added by cse init)
 .security-scan/
+
+# Security output docs
+security_docs/

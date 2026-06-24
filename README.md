@@ -1,4 +1,4 @@
-# FTR Partner Self-Assessment MCP Server (`@asp-sail/ftr-eval-mcp`)
+# FTR Partner Self-Assessment MCP Server (`@aws/ftr-eval-mcp`)
 
 An MCP server and interactive CLI that automates the AWS Foundational Technical Review (FTR) partner self-assessment process. It evaluates partner-submitted compliance documents (SOC 2 Type II reports and WAFR reports) against defined controls and returns structured PASS/FAIL decisions with reasoning.
 
@@ -30,7 +30,7 @@ Choose the option that fits your environment.
 ### Option 1 — npm (requires Node.js >= 18)
 
 ```bash
-npm install -g @asp-sail/ftr-eval-mcp
+npm install -g @aws/ftr-eval-mcp
 ```
 
 Once installed, the `ftr-eval-mcp` command is available globally:

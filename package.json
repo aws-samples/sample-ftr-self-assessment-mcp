@@ -1,5 +1,5 @@
 {
-  "name": "@asp-sail/ftr-eval-mcp",
+  "name": "@aws/ftr-eval-mcp",
   "version": "1.0.0",
   "description": "MCP server exposing a local FTR (Foundational Technical Review) evaluation tool for updated criterion.",
   "main": "dist/server.js",
