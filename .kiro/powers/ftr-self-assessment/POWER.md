@@ -63,3 +63,10 @@ Decision: PASS or FAIL
 - [AWS Well-Architected Partner Program (WAPP)](https://aws.amazon.com/partners/programs/well-architected/)
 - [SOC 2 Trust Services Criteria (AICPA)](https://www.aicpa.org/interestareas/frc/assuranceadvisoryservices/trustservices.html)
 - [AWS SOC Reports FAQ](https://aws.amazon.com/compliance/soc-faqs/)
+
+## License and support
+
+This power is part of [sample-ftr-self-assessment-mcp](https://github.com/aws-samples/sample-ftr-self-assessment-mcp) (MIT-0).
+
+- [Privacy Policy](https://aws.amazon.com/privacy/)
+- [Support](https://github.com/aws-samples/sample-ftr-self-assessment-mcp/issues)
