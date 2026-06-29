@@ -1,4 +1,4 @@
-# FTR Partner Self-Assessment MCP Server (`@aws/ftr-eval-mcp`)
+# FTR Partner Self-Assessment MCP Server
 
 An MCP server and interactive CLI that automates the AWS Foundational Technical Review (FTR) partner self-assessment process. It evaluates partner-submitted compliance documents (SOC 2 Type II reports and WAFR reports) against defined controls and returns structured PASS/FAIL decisions with reasoning.
 
@@ -25,22 +25,7 @@ This package provides three ways to evaluate submissions:
 
 ## Installation
 
-Choose the option that fits your environment.
-
-### Option 1 — npm (requires Node.js >= 18)
-
-```bash
-npm install -g @aws/ftr-eval-mcp
-```
-
-Once installed, the `ftr-eval-mcp` command is available globally:
-
-```bash
-ftr-eval-mcp evaluate
-ftr-eval-mcp serve
-```
-
-### Option 2 — Standalone Binary (no Node.js required)
+### Option 1 — Standalone Binary (no Node.js required)
 
 Download the binary for your platform from the [GitHub Releases](../../releases) page:
 
@@ -65,10 +50,28 @@ chmod +x ftr-eval-mcp-macos-arm64
 ftr-eval-mcp-win-x64.exe evaluate
 ```
 
+### Option 2 — Build from Source (requires Node.js >= 18)
+
+Clone the repository and build locally:
+
+```bash
+git clone https://github.com/aws-samples/sample-ftr-self-assessment-mcp.git
+cd sample-ftr-self-assessment-mcp
+npm install
+npm run build
+```
+
+Then run via Node directly:
+
+```bash
+node dist/server.js evaluate
+node dist/server.js serve
+```
+
 ## Prerequisites
 
 - AWS credentials configured (for Bedrock access)
-- Node.js >= 18.0.0 (npm install path only — not required for standalone binaries)
+- Node.js >= 18.0.0 (build from source only — not required for standalone binaries)
 
 ## Configuration
 
