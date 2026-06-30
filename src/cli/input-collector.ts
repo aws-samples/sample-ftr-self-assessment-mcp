@@ -102,7 +102,7 @@ export async function promptReportType(): Promise<ReportType> {
  * Returns true if valid, or an error message string if invalid.
  */
 export function validateFilePath(input: string): true | string {
-  const trimmed = input.trim();
+  const trimmed = input.trim().replace(/^['"]|['"]$/g, '');
 
   if (!trimmed) {
     return 'Please enter a file path.';
@@ -148,7 +148,7 @@ export async function promptControlSelection(
   const controls = controlRegistry.getControls(reportType);
 
   const choices = [
-    { name: 'Evaluate All Controls', value: undefined as string | undefined },
+    { name: 'Evaluate All Checks', value: undefined as string | undefined },
     ...controls.map((control) => ({
       name: `${control.control_id}: ${control.title}`,
       value: control.control_id as string | undefined,
@@ -159,7 +159,7 @@ export async function promptControlSelection(
     {
       type: 'list',
       name: 'controlId',
-      message: 'Select a control to evaluate:',
+      message: 'Select a check to evaluate:',
       choices,
     },
   ]);

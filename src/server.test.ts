@@ -8,7 +8,7 @@ describe('FTR MCP Server entry point', () => {
   describe('CLI --help', () => {
     it('should display top-level help with subcommands', async () => {
       const result = await runServer(['--help']);
-      expect(result.stdout).toContain('ftr-mcp-server');
+      expect(result.stdout).toContain('ftr-eval-mcp');
       expect(result.stdout).toContain('serve');
       expect(result.stdout).toContain('evaluate');
     });

@@ -16,11 +16,11 @@ describe('ControlRegistry', () => {
       expect(ids).toEqual(['SOC-001', 'SOC-002', 'SOC-003', 'SOC-004', 'SOC-005']);
     });
 
-    it('returns all 4 WAFR controls', () => {
+    it('returns all 6 WAFR controls', () => {
       const controls = registry.getControls('wafr');
-      expect(controls).toHaveLength(4);
+      expect(controls).toHaveLength(6);
       const ids = controls.map(c => c.control_id);
-      expect(ids).toEqual(['WAFR-FTR-001', 'WAFR-FTR-002', 'WAFR-FTR-003', 'WAFR-FTR-004']);
+      expect(ids).toEqual(['WAFR-FTR-001', 'WAFR-FTR-002', 'WAFR-FTR-003', 'WAFR-FTR-004', 'WAFR-FTR-005', 'WAFR-FTR-006']);
     });
 
     it('throws error for invalid report type', () => {
@@ -60,7 +60,7 @@ describe('ControlRegistry', () => {
     it('returns a specific WAFR control by ID', () => {
       const control = registry.getControl('wafr', 'WAFR-FTR-001');
       expect(control.control_id).toBe('WAFR-FTR-001');
-      expect(control.title).toBe('WAFR Must Be Led by an Authorized Reviewer AND Completed Within 12 Months');
+      expect(control.title).toBe('WAFR Completed Within 12 Months');
     });
 
     it('throws error for non-existent control ID', () => {
@@ -89,6 +89,8 @@ describe('ControlRegistry', () => {
         expect(e.message).toContain('WAFR-FTR-002');
         expect(e.message).toContain('WAFR-FTR-003');
         expect(e.message).toContain('WAFR-FTR-004');
+        expect(e.message).toContain('WAFR-FTR-005');
+        expect(e.message).toContain('WAFR-FTR-006');
       }
     });
 
@@ -107,7 +109,7 @@ describe('ControlRegistry', () => {
 
     it('returns WAFR control IDs', () => {
       const ids = registry.getControlIds('wafr');
-      expect(ids).toEqual(['WAFR-FTR-001', 'WAFR-FTR-002', 'WAFR-FTR-003', 'WAFR-FTR-004']);
+      expect(ids).toEqual(['WAFR-FTR-001', 'WAFR-FTR-002', 'WAFR-FTR-003', 'WAFR-FTR-004', 'WAFR-FTR-005', 'WAFR-FTR-006']);
     });
 
     it('throws error for invalid report type', () => {
@@ -132,7 +134,6 @@ describe('ControlRegistry', () => {
     it('WAFR-FTR-002 criteria mentions HRIs', () => {
       const control = registry.getControl('wafr', 'WAFR-FTR-002');
       expect(control.criteria).toContain('HRIs');
-      expect(control.criteria).toContain('improvement plan');
     });
   });
 });

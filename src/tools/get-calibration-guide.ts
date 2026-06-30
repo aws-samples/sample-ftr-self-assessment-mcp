@@ -14,7 +14,7 @@ export function registerGetCalibrationGuideTool(
 ): void {
   server.tool(
     'get_calibration_guide',
-    'Retrieve the FTR calibration guide with detailed evaluation guidance, edge cases, and examples for each control',
+    'Retrieve the FTR calibration guide with detailed evaluation guidance, edge cases, and examples for each check',
     {
       report_type: z.enum(['soc2', 'wafr']).describe('The report type to get the calibration guide for'),
       control_id: z.string().optional().describe('Optional specific control ID to get only that section'),

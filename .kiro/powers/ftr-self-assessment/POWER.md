@@ -27,7 +27,7 @@ When evaluating a partner's FTR submission:
 | Track | Document Required | Controls |
 |---|---|---|
 | **SOC 2** | SOC 2 Type II Report | SOC-001 through SOC-005 |
-| **WAFR** | AWS Well-Architected Framework Review Report | WAFR-FTR-001 through WAFR-FTR-004 |
+| **WAFR** | AWS Well-Architected Framework Review Report | WAFR-FTR-001 through WAFR-FTR-006 |
 
 ### Response Format
 
@@ -43,16 +43,15 @@ Decision: PASS or FAIL
 - Expired reports (SOC 2 or WAFR older than 12 months) always FAIL — no exceptions
 - SOC 2 Type I does not qualify; must be Type II
 - Submitting a WAFR report for a SOC 2 control (or vice versa) FAILS immediately
-- For WAFR HRI controls, only active (open/unresolved) HRIs cause failure — resolved HRIs are ignored
-- HRIs with an improvement plan, remediation recommendation, or "Ask an expert" guidance = PASS
+- For WAFR HRI checks, any active (open/unresolved) HRI causes failure — resolved HRIs are ignored
 - Medium-Risk Issues (MRIs) never cause failure regardless of count or status
 - Unanswered questions = SKIP unless notes contain explicit negative answers like "No"
 
 ## Steering Files
 
 - `ftr-prompt-template.md` — The LLM prompt template used at inference time
-- `soc2-controls.md` — SOC 2 control definitions (5 controls)
-- `wafr-controls.md` — WAFR control definitions (4 controls)
+- `soc2-controls.md` — SOC 2 check definitions (5 checks)
+- `wafr-controls.md` — WAFR check definitions (6 checks)
 - `soc2-calibration-guide.md` — Full SOC 2 calibration guide with examples and edge cases
 - `wafr-calibration-guide.md` — Full WAFR calibration guide with examples and edge cases
 

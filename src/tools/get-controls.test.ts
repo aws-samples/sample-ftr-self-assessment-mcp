@@ -52,16 +52,16 @@ describe('get_controls tool handler', () => {
   });
 
   describe('handler logic - WAFR controls', () => {
-    it('returns all 4 WAFR controls when no control_id specified', () => {
+    it('returns all 6 WAFR controls when no control_id specified', () => {
       const controls = controlRegistry.getControls('wafr');
       const output: GetControlsOutput = {
         report_type: 'wafr',
         controls,
       };
-      expect(output.controls).toHaveLength(4);
+      expect(output.controls).toHaveLength(6);
       expect(output.report_type).toBe('wafr');
       const ids = output.controls.map(c => c.control_id);
-      expect(ids).toEqual(['WAFR-FTR-001', 'WAFR-FTR-002', 'WAFR-FTR-003', 'WAFR-FTR-004']);
+      expect(ids).toEqual(['WAFR-FTR-001', 'WAFR-FTR-002', 'WAFR-FTR-003', 'WAFR-FTR-004', 'WAFR-FTR-005', 'WAFR-FTR-006']);
     });
 
     it('returns a single WAFR control when control_id is specified', () => {

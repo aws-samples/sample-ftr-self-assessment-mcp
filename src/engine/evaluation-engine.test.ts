@@ -78,7 +78,7 @@ describe('EvaluationEngine', () => {
       expect(result.results.every(r => r.decision === 'PASS')).toBe(true);
     });
 
-    it('evaluates all WAFR controls (4 controls)', async () => {
+    it('evaluates all WAFR controls (6 controls)', async () => {
       const input: EvaluateSubmissionInput = {
         file_path: '/path/to/wafr.pdf',
         report_type: 'wafr',

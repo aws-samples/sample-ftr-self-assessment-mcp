@@ -10,7 +10,7 @@ import { GetControlsOutput } from '../types.js';
 export function registerGetControlsTool(server: McpServer, controlRegistry: ControlRegistry): void {
   server.tool(
     'get_controls',
-    'Retrieve FTR control definitions for a given report type. Optionally filter by a specific control ID.',
+    'Retrieve FTR check definitions for a given report type. Optionally filter by a specific check ID.',
     {
       report_type: z.enum(['soc2', 'wafr']).describe('The report type to get controls for'),
       control_id: z.string().optional().describe('Optional specific control ID (e.g., SOC-001)'),

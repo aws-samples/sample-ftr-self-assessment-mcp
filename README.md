@@ -1,10 +1,10 @@
 # FTR Partner Self-Assessment MCP Server
 
-An MCP server and interactive CLI that automates the AWS Foundational Technical Review (FTR) partner self-assessment process. It evaluates partner-submitted compliance documents (SOC 2 Type II reports and WAFR reports) against defined controls and returns structured PASS/FAIL decisions with reasoning.
+An MCP server and interactive CLI that automates the AWS Foundational Technical Review (FTR) partner self-assessment process. It evaluates partner-submitted compliance documents (SOC 2 Type II reports and WAFR reports) against defined checks and returns structured PASS/FAIL decisions with reasoning.
 
 ## Architecture
 
-The system connects partner-submitted PDF reports to Amazon Bedrock for LLM-powered evaluation. A Model Context Protocol (MCP) server exposes evaluation tools to AI assistants, while a standalone CLI provides a guided terminal workflow. Both paths share a common evaluation engine backed by Bedrock, SOC 2 and WAFR control registries, and calibration guides that shape scoring decisions.
+The system connects partner-submitted PDF reports to Amazon Bedrock for LLM-powered evaluation. A Model Context Protocol (MCP) server exposes evaluation tools to AI assistants, while a standalone CLI provides a guided terminal workflow. Both paths share a common evaluation engine backed by Bedrock, SOC 2 and WAFR check registries, and calibration guides that shape scoring decisions.
 
 ![FTR Partner Self-Assessment Architecture](architecture_diagram/architecture_diagram.png)
 
@@ -12,10 +12,10 @@ The system connects partner-submitted PDF reports to Amazon Bedrock for LLM-powe
 
 Partners seeking AWS validation must submit evidence for two distinct review tracks:
 
-| Track | Document Required | Controls Evaluated |
+| Track | Document Required | Checks Evaluated |
 |---|---|---|
 | **SOC 2** | SOC 2 Type II Report | SOC-001 through SOC-005 |
-| **WAFR** | AWS Well-Architected Framework Review Report | WAFR-FTR-001 through WAFR-FTR-005 |
+| **WAFR** | AWS Well-Architected Framework Review Report | WAFR-FTR-001 through WAFR-FTR-006 |
 
 This package provides three ways to evaluate submissions:
 
@@ -59,6 +59,7 @@ git clone https://github.com/aws-samples/sample-ftr-self-assessment-mcp.git
 cd sample-ftr-self-assessment-mcp
 npm install
 npm run build
+npm run link
 ```
 
 Then run via Node directly:
@@ -72,6 +73,19 @@ node dist/server.js serve
 
 - AWS credentials configured (for Bedrock access)
 - Node.js >= 18.0.0 (build from source only — not required for standalone binaries)
+
+Node.js 22 is recommended. If you use [nvm](https://github.com/nvm-sh/nvm), switch to it before building:
+
+```bash
+nvm use 22
+```
+
+If Node.js 22 is not yet installed:
+
+```bash
+nvm install 22
+nvm use 22
+```
 
 ## Configuration
 
@@ -170,7 +184,7 @@ This will prompt you to:
 
 1. Select a report type (SOC 2 or WAFR)
 2. Enter the path to your PDF report
-3. Choose a specific control or evaluate all
+3. Choose a specific check or evaluate all
 
 ### Non-Interactive Mode
 
@@ -180,7 +194,7 @@ For scripting and CI/CD pipelines:
 ftr-eval-mcp evaluate --report-type wafr --file ./path/to/report.pdf
 ```
 
-Evaluate a single control:
+Evaluate a single check:
 
 ```bash
 ftr-eval-mcp evaluate --report-type soc2 --file ./report.pdf --control-id SOC-001
@@ -206,9 +220,9 @@ When running as an MCP server, the following tools are exposed:
 | Tool | Description |
 |---|---|
 | `parse_pdf` | Parse a PDF file and extract text content |
-| `get_controls` | Get control definitions for a report type |
+| `get_controls` | Get check definitions for a report type |
 | `get_calibration_guide` | Get the calibration guide for a report type |
-| `evaluate_submission` | Evaluate a PDF submission against controls |
+| `evaluate_submission` | Evaluate a PDF submission against checks |
 | `get_prompt_template` | Get the FTR evaluation prompt template |
 
 ## Development
@@ -260,7 +274,7 @@ src/
 ├── parsers/
 │   └── pdf-parser.ts          # PDF text extraction
 ├── registries/
-│   ├── control-registry.ts    # Control definitions
+│   ├── control-registry.ts    # Check definitions
 │   └── calibration-guide-registry.ts # Calibration guides
 ├── tools/                     # MCP tool registrations
 │   ├── evaluate-submission.ts
@@ -271,7 +285,7 @@ src/
 ├── types.ts                   # Shared TypeScript types
 └── assets/
     ├── calibration-guides/    # SOC 2 and WAFR calibration guides
-    ├── controls/              # Control definition files
+    ├── controls/              # Check definition files
     └── prompts/               # LLM prompt templates
 ```
 
@@ -279,11 +293,11 @@ src/
 
 This project also includes a Kiro power at `.kiro/powers/ftr-self-assessment/` for direct use within the Kiro IDE. The steering files load automatically and give Kiro full calibration criteria to evaluate FTR submissions in chat.
 
-## Controls Reference
+## Checks Reference
 
-### SOC 2 Controls
+### SOC 2 Checks
 
-| Control | Description |
+| Check | Description |
 |---|---|
 | **SOC-001** | SOC 2 Type II report must be active (issued within the last 12 months) |
 | **SOC-002** | Auditor opinion must be exactly "Unqualified" |
@@ -291,21 +305,22 @@ This project also includes a Kiro power at `.kiro/powers/ftr-self-assessment/` f
 | **SOC-004** | The partner's specific solution must appear in the audit scope |
 | **SOC-005** | Both Security AND Availability Trust Service Categories must be present |
 
-### WAFR Controls
+### WAFR Checks
 
-| Control | Description |
+| Check | Description |
 |---|---|
 | **WAFR-FTR-001** | Review must be completed within 12 months |
 | **WAFR-FTR-002** | Zero active High-Risk Issues (HRIs) in the Security pillar |
 | **WAFR-FTR-003** | Zero active High-Risk Issues (HRIs) in the Operational Excellence pillar |
 | **WAFR-FTR-004** | Zero active High-Risk Issues (HRIs) in the Reliability pillar |
 | **WAFR-FTR-005** | Partner's solution must be identifiable in the WAFR workload name or description |
+| **WAFR-FTR-006** | Report must contain all required sections (Workload properties, Lens overview, Improvement plan, Lens details) |
 
 ## Key Rules
 
 - Expired reports (SOC 2 or WAFR older than 12 months) always **FAIL**
 - SOC 2 Type I does **not** qualify; must be Type II
-- Submitting a WAFR report for a SOC 2 control (or vice versa) **FAILS** immediately
+- Submitting a WAFR report for a SOC 2 check (or vice versa) **FAILS** immediately
 - Only **active** (open/unresolved) HRIs cause failure — resolved HRIs are ignored
 - Medium-Risk Issues (MRIs) never cause failure regardless of count or status
 

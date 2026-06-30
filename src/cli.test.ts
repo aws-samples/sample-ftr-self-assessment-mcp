@@ -175,7 +175,7 @@ describe('runEvaluateCli', () => {
 
       // Progress reporter was started and stopped
       expect(mockProgressReporter.start).toHaveBeenCalledWith(
-        'Evaluating 3 control(s) for SOC2...',
+        'Evaluating 3 check(s) for SOC2...',
       );
       expect(mockProgressReporter.update).toHaveBeenCalledTimes(3);
       expect(mockProgressReporter.update).toHaveBeenCalledWith(1, 3, 'SOC-001', 'PASS');
@@ -217,7 +217,7 @@ describe('runEvaluateCli', () => {
       await runEvaluateCli({});
 
       expect(mockProgressReporter.start).toHaveBeenCalledWith(
-        'Evaluating 1 control(s) for WAFR...',
+        'Evaluating 1 check(s) for WAFR...',
       );
       expect(mockEvaluateControl).toHaveBeenCalledTimes(1);
       expect(mockEvaluateControl).toHaveBeenCalledWith('wafr pdf content', 'WAFR-SEC-01', 'wafr');

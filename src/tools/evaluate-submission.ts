@@ -16,7 +16,7 @@ export function registerEvaluateSubmissionTool(
 ): void {
   server.tool(
     'evaluate_submission',
-    'Evaluate a PDF report against FTR controls. Returns per-control PASS/FAIL decisions with reasoning and an overall result.',
+    'Evaluate a PDF report against FTR checks. Returns per-check PASS/FAIL decisions with reasoning and an overall result.',
     {
       file_path: z.string().describe('Path to the PDF report to evaluate'),
       report_type: z.enum(['soc2', 'wafr']).describe('The report type to evaluate against'),

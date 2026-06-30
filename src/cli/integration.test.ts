@@ -9,7 +9,6 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import * as path from 'node:path';
 
 // --- Mock external AWS dependencies ---
 
@@ -32,6 +31,28 @@ vi.mock('@aws-sdk/client-bedrock-runtime', () => ({
   InvokeModelCommand: vi.fn().mockImplementation((input: unknown) => input),
 }));
 
+vi.mock('../parsers/pdf-parser.js', () => ({
+  PdfParser: vi.fn().mockImplementation(() => ({
+    parse: vi.fn().mockResolvedValue({
+      text: 'Mock WAFR report content for testing.',
+      char_count: 38,
+      page_count: 1,
+      file_path: '/mock/report.pdf',
+    }),
+  })),
+}));
+
+vi.mock('node:fs', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('node:fs')>();
+  return {
+    ...actual,
+    existsSync: (p: unknown) => {
+      if (typeof p === 'string' && p.includes('/mock/')) return true;
+      return actual.existsSync(p as string);
+    },
+  };
+});
+
 // Track whether inquirer is ever imported/called
 const inquirerPromptSpy = vi.fn();
 vi.mock('inquirer', () => ({
@@ -53,10 +74,7 @@ const mockConsoleLog = vi.spyOn(console, 'log').mockImplementation((...args: unk
 vi.spyOn(console, 'error').mockImplementation(() => {});
 
 describe('CLI Non-Interactive Mode Integration', () => {
-  const testPdfPath = path.resolve(
-    __dirname,
-    '../../test_files/FTR_WAFR_PASSING_wellarchitected.pdf',
-  );
+  const testPdfPath = '/mock/FTR_WAFR_PASSING_wellarchitected.pdf';
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -128,13 +146,13 @@ describe('CLI Non-Interactive Mode Integration', () => {
       file: testPdfPath,
     });
 
-    // Bedrock should be called 4 times (all WAFR controls)
-    expect(mockBedrockSend).toHaveBeenCalledTimes(4);
+    // Bedrock should be called 6 times (all WAFR controls)
+    expect(mockBedrockSend).toHaveBeenCalledTimes(6);
 
     // Output should contain summary with all controls
     const fullOutput = consoleLogOutput.join('\n');
-    expect(fullOutput).toContain('4 passed');
-    expect(fullOutput).toContain('4 total');
+    expect(fullOutput).toContain('6 passed');
+    expect(fullOutput).toContain('6 total');
   });
 
   it('should display FAIL results correctly when Bedrock returns FAIL', async () => {

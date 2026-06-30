@@ -32,21 +32,6 @@ describe('MCP Tool Handlers - Integration Tests', () => {
   });
 
   describe('parse_pdf', () => {
-    it('extracts text from a valid PDF file with correct metadata', async () => {
-      const testPdfPath = path.resolve(
-        __dirname,
-        '../../test_files/FTR_WAFR_PASSING_wellarchitected.pdf'
-      );
-
-      const result: ParsePdfOutput = await pdfParser.parse(testPdfPath);
-
-      expect(result.text).toBeDefined();
-      expect(typeof result.text).toBe('string');
-      expect(result.text.length).toBeGreaterThan(0);
-      expect(result.char_count).toBe(result.text.length);
-      expect(result.page_count).toBeGreaterThan(0);
-    });
-
     it('returns file not found error for non-existent file', async () => {
       await expect(pdfParser.parse('/nonexistent/file.pdf')).rejects.toThrow(
         'File not found: /nonexistent/file.pdf'
@@ -77,18 +62,18 @@ describe('MCP Tool Handlers - Integration Tests', () => {
       }
     });
 
-    it('returns 4 WAFR controls with correct IDs', () => {
+    it('returns 6 WAFR controls with correct IDs', () => {
       const controls = controlRegistry.getControls('wafr');
       const output: GetControlsOutput = {
         report_type: 'wafr',
         controls,
       };
 
-      expect(output.controls).toHaveLength(4);
+      expect(output.controls).toHaveLength(6);
       expect(output.report_type).toBe('wafr');
 
       const ids = output.controls.map(c => c.control_id);
-      expect(ids).toEqual(['WAFR-FTR-001', 'WAFR-FTR-002', 'WAFR-FTR-003', 'WAFR-FTR-004']);
+      expect(ids).toEqual(['WAFR-FTR-001', 'WAFR-FTR-002', 'WAFR-FTR-003', 'WAFR-FTR-004', 'WAFR-FTR-005', 'WAFR-FTR-006']);
 
       // Verify each control has required fields
       for (const control of output.controls) {

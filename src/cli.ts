@@ -100,7 +100,7 @@ export async function runEvaluateCli(options: CliOptions): Promise<void> {
     // Create progress reporter and start it
     const progress = await createProgressReporter();
     progress.start(
-      `Evaluating ${controlIds.length} control(s) for ${input.reportType.toUpperCase()}...`,
+      `Evaluating ${controlIds.length} check(s) for ${input.reportType.toUpperCase()}...`,
     );
 
     // Evaluate each control with progress updates
@@ -181,7 +181,7 @@ async function displayPartialResults(
   console.log('\n' + chalk.yellow('Evaluation interrupted. Displaying partial results...\n'));
 
   if (results.length === 0) {
-    console.log(chalk.dim('No controls were evaluated before interruption.'));
+    console.log(chalk.dim('No checks were evaluated before interruption.'));
     return;
   }
 

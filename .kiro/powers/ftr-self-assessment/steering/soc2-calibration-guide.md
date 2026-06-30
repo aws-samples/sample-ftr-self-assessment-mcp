@@ -1,16 +1,17 @@
----
-inclusion: auto
----
-
 # SOC 2 Controls Calibration Guide V1.0
 
 ## Introduction
 
-This guide covers the five core SOC 2 Type II validation controls derived from the Alternative FTR process (Original Control ID: ALT-002). All SOC 2 Type II audit examinations must be completed by an independent auditor. The SOC 2 report validates that security controls are in place and operating effectively.
+This guide covers the five core SOC 2 Type II validation controls derived from
+the Alternative FTR process (Original Control ID: ALT-002). All SOC 2 Type II
+audit examinations must be completed by an independent auditor. The SOC 2 report
+validates that security controls are in place and operating effectively.
 
-IMPORTANT: Do not determine the final decision until ALL criteria have been analyzed individually.
+IMPORTANT: Do not determine the final decision until ALL criteria have been
+analyzed individually.
 
 Partners must provide:
+
 - SOC 2 Type II report
 
 ---
@@ -19,11 +20,15 @@ Partners must provide:
 
 ### Control Description
 
-The SOC 2 Type II report must be active based on a 12-month validation window. Extract the report issue date (the date the auditor signed the report) and add 12 months to determine expiration. If the current date exceeds the expiration, the control is not met.
+The SOC 2 Type II report must be active based on a 12-month validation window.
+Extract the report issue date (the date the auditor signed the report) and add
+12 months to determine expiration. If the current date exceeds the expiration,
+the control is not met.
 
 ### Criteria for Passing
 
-- Extract the report issue date from the SOC 2 report (this is the date the auditor signed the Independent Service Auditor's Report)
+- Extract the report issue date from the SOC 2 report (this is the date the
+  auditor signed the Independent Service Auditor's Report)
 - Add 12 months to the issue date to determine expiration
 - Current date on or before expiration date = control is met
 - Current date after expiration date = control is not met
@@ -33,7 +38,12 @@ The SOC 2 Type II report must be active based on a 12-month validation window. E
 
 ### Why is this important
 
-SOC 2 Type II reports provide independent third-party verification that security and availability controls are in place and operating effectively over an extended period (typically 6-12 months). The report is not valid until the auditor signs it, so the issue date (not the evaluation period end date) determines when the 12-month validity window begins. Expired reports no longer provide assurance that controls are functioning as intended.
+SOC 2 Type II reports provide independent third-party verification that security
+and availability controls are in place and operating effectively over an extended
+period (typically 6-12 months). The report is not valid until the auditor signs
+it, so the issue date (not the evaluation period end date) determines when the
+12-month validity window begins. Expired reports no longer provide assurance that
+controls are functioning as intended.
 
 ### Edge Cases
 
@@ -42,13 +52,19 @@ SOC 2 Type II reports provide independent third-party verification that security
 - The current date will be provided in the partner response for date calculation
 - If partner provides a WAFR report instead of a SOC 2 report, control FAILS
 
-### Examples
+### Technical Enablement Resources
 
-Acceptable:
+- SOC 2 Trust Services Criteria
+  (https://www.aicpa.org/interestareas/frc/assuranceadvisoryservices/trustservices.html)
+- AWS SOC reports (https://aws.amazon.com/compliance/soc-faqs/)
+
+### Example of Acceptable Response
+
 - Report issue date: March 3, 2025
 - Report is active until: March 3, 2026 (today's date < March 3, 2026)
 
-Unacceptable:
+### Example of Unacceptable Response
+
 - Report expired (report issue date + 12 months < today's date)
 - NO EXCEPTIONS for expired reports
 
@@ -58,36 +74,69 @@ Unacceptable:
 
 ### Control Description
 
-The SOC 2 Type II audit must have an "Unqualified" auditor opinion. The opinion must be exactly "Unqualified" - any other opinion results in control not met.
+The SOC 2 Type II audit must have an unqualified/unmodified (clean) auditor
+opinion. Any other opinion results in control not met.
 
 ### Criteria for Passing
 
-- Auditor opinion must be exactly "Unqualified"
-- Any other opinion = control not met:
-  - Qualified
-  - Adverse
-  - Disclaimer
-  - Modified
+- The auditor's opinion must contain language substantially similar to:
+  "In our opinion, in all material respects, the description presents fairly
+  the [service organization's] system... the controls stated in the description
+  were suitably designed to provide reasonable assurance... and the controls
+  operated effectively throughout the period."
+- All three components of the opinion must be unqualified:
+
+1. Fair presentation of the system description
+2. Suitability of design of controls
+3. Operating effectiveness of controls throughout the reporting period
+
+- Any qualified, adverse, or disclaimer of opinion on ANY of the three
+  components = control not met
 
 ### Why is this important
 
-An unqualified opinion means the independent auditor found that the partner's controls are suitably designed and operating effectively without material exceptions. Any qualification indicates weaknesses in the control environment that could impact the security and reliability of the partner's solution.
+An unqualified opinion means the independent auditor found that the partner's
+system description is fairly presented and that controls are both suitably
+designed and operating effectively without material exceptions. Any qualification
+indicates significant weaknesses in the control environment that could impact
+the security, availability, and reliability of the partner's solution.
 
 ### Edge Cases
 
-- Only "Unqualified" is acceptable - no partial credit for other opinion types
-- The opinion is typically found in the auditor's report section of the SOC 2 document
+- "Unmodified" and "unqualified" are equivalent terms — both are acceptable
+- The opinion is found in the independent service auditor's report section
+  (typically Section I or II of the SOC 2 report)
+- A qualification on only one component (e.g., operating effectiveness) while
+  the other two are clean still results in control not met
+- Some reports use "except for" language — this indicates a qualified opinion
+  and fails this control
+- Emphasis-of-matter or other-matter paragraphs do NOT constitute a
+  qualification — the opinion is still unqualified if the conclusion is clean
+- An unqualified opinion can coexist with individual control exceptions noted
+  in Section IV — this is acceptable as the auditor determined those exceptions
+  are not material to the overall system
 
-### Examples
+### Technical Enablement Resources
 
-Acceptable:
-- Auditor Opinion: Unqualified
+- SOC 2 Trust Services Criteria
+  (https://www.aicpa.org/interestareas/frc/assuranceadvisoryservices/trustservices.html)
+- AWS SOC reports (https://aws.amazon.com/compliance/soc-faqs/)
+- AICPA AT-C Section 205 (Examination Engagements)
 
-Unacceptable:
-- Qualified opinion
-- Adverse opinion
-- Disclaimer of opinion
-- Modified opinion
+### Example of Acceptable Response
+
+- Auditor Opinion: Unqualified / Unmodified
+- Auditor Opinion: Unqualified with emphasis-of-matter paragraph
+- Auditor Opinion: Unqualified; individual control exceptions noted in
+  Section IV (overall opinion not impacted)
+
+### Example of Unacceptable Response
+
+- Qualified opinion ("except for" language present in opinion)
+- Adverse opinion (controls NOT suitably designed or NOT operating effectively)
+- Disclaimer of opinion (auditor unable to obtain sufficient evidence)
+- Opinion qualified on operating effectiveness but clean on design
+- Opinion qualified on fair presentation of system description
 
 ---
 
@@ -95,31 +144,43 @@ Unacceptable:
 
 ### Control Description
 
-AWS MUST be included as a cloud provider in the SOC 2 audit scope. The presence of other cloud providers does not cause failure as long as AWS is listed.
+AWS MUST be included as a cloud provider in the SOC 2 audit scope. The presence
+of other cloud providers does not cause failure as long as AWS is listed.
 
 ### Criteria for Passing
 
 - AWS must be listed as a cloud provider in the audit scope
-- If other cloud providers (Azure, GCP, Oracle Cloud, etc.) are also in scope, note them in the reason but do NOT fail the control for this alone
+- If other cloud providers (Azure, GCP, Oracle Cloud, etc.) are also in scope,
+  note them in the reason but do NOT fail the control for this alone
 - Control is not met ONLY if AWS is absent from the audit scope entirely
 
 ### Why is this important
 
-The SOC 2 report must cover the AWS infrastructure where the partner solution is hosted. Without AWS in scope, the report does not validate the security and availability controls relevant to the partner's AWS-hosted solution. The audit must specifically attest to controls operating in the AWS environment.
+The SOC 2 report must cover the AWS infrastructure where the partner solution is
+hosted. Without AWS in scope, the report does not validate the security and
+availability controls relevant to the partner's AWS-hosted solution. The audit
+must specifically attest to controls operating in the AWS environment.
 
 ### Edge Cases
 
 - Multiple cloud providers in scope is acceptable as long as AWS is included
 - Note other providers in the reason but do not fail for their presence
-- Look for AWS references in the system description and scope sections of the SOC 2 report
+- Look for AWS references in the system description and scope sections of the
+  SOC 2 report
 
-### Examples
+### Technical Enablement Resources
 
-Acceptable:
+- SOC 2 Trust Services Criteria
+  (https://www.aicpa.org/interestareas/frc/assuranceadvisoryservices/trustservices.html)
+- AWS SOC reports (https://aws.amazon.com/compliance/soc-faqs/)
+
+### Example of Acceptable Response
+
 - Cloud Provider in scope: AWS
 - Cloud Provider in scope: AWS, Azure (both listed - acceptable, note Azure)
 
-Unacceptable:
+### Example of Unacceptable Response
+
 - AWS not listed as a cloud provider in the audit scope at all
 - Only Azure or GCP listed without AWS
 
@@ -129,16 +190,23 @@ Unacceptable:
 
 ### Control Description
 
-The partner's solution must be explicitly mentioned in the SOC 2 audit scope. The solution name from the partner's FTR checklist must appear in or closely match a product/service mentioned in the audit scope.
+The partner's solution must be explicitly mentioned in the SOC 2 audit scope.
+The solution name from the partner's FTR checklist must appear in or closely
+match a product/service mentioned in the audit scope.
 
 ### Criteria for Passing
 
-- The solution partner is validating against must appear in or closely match a product/service mentioned in the audit scope
-- Accept partial or similar name matches (e.g., abbreviations, product line names)
+- The solution partner is validating against must appear in or closely match
+  a product/service mentioned in the audit scope
+- Accept partial or similar name matches (e.g., abbreviations, product line
+  names)
 
 ### Why is this important
 
-The SOC 2 report must specifically cover the solution being validated through FTR. A generic SOC 2 report that does not include the specific solution in its scope provides no assurance about that solution's security and availability controls. The audit must attest to the controls governing the actual product.
+The SOC 2 report must specifically cover the solution being validated through
+FTR. A generic SOC 2 report that does not include the specific solution in its
+scope provides no assurance about that solution's security and availability
+controls. The audit must attest to the controls governing the actual product.
 
 ### Edge Cases
 
@@ -146,13 +214,19 @@ The SOC 2 report must specifically cover the solution being validated through FT
 - Abbreviations and product line names count as matches
 - Look for the solution name in the system description and scope sections
 
-### Examples
+### Technical Enablement Resources
 
-Acceptable:
+- SOC 2 Trust Services Criteria
+  (https://www.aicpa.org/interestareas/frc/assuranceadvisoryservices/trustservices.html)
+- AWS SOC reports (https://aws.amazon.com/compliance/soc-faqs/)
+
+### Example of Acceptable Response
+
 - Solution in scope: solution name mentioned in audit scope
 - Solution in scope: abbreviated or product line name closely matches
 
-Unacceptable:
+### Example of Unacceptable Response
+
 - Solution name not mentioned in audit scope
 - Generic SOC 2 report with no reference to the specific solution
 
@@ -162,32 +236,94 @@ Unacceptable:
 
 ### Control Description
 
-BOTH Security AND Availability trust centers must be present in the SOC 2 audit. Missing either one results in control not met.
+BOTH Security AND Availability trust centers must be present in the SOC 2 Type II
+audit scope. Missing either one results in control not met.
 
 ### Criteria for Passing
 
-- "Security" trust center: MUST be present in audit
-- "Availability" trust center: MUST be present in audit
-- Missing either one = control not met
+- "Security" trust center: MUST be present in audit scope
+- "Availability" trust center: MUST be present in audit scope
+- If Availability is confirmed in scope, controls A1.1, A1.2, and A1.3 are
+  inherently included (they are the only three criteria in the Availability
+  category — the auditor cannot scope Availability without testing all three)
+- Missing either trust center = control not met
+
+### How to Verify Trust Centers are in Scope
+
+The following locations can be used to confirm trust center coverage. ANY ONE
+of these is sufficient evidence — the full Section 4 detail is NOT required:
+
+1. Cover Page — typically lists trust centers in the report title
+   (e.g., "Controls Relevant to Security, Availability, Processing Integrity,
+   and Confidentiality")
+
+2. Table of Contents / Index — look for "Availability Category and Criteria"
+   listed as a section
+
+3. Section 1: Independent Service Auditor's Report (Scope paragraph) — the
+   auditor explicitly names which trust services categories were examined
+   (e.g., "...trust services criteria relevant to Security, Availability,
+   Processing Integrity, and Confidentiality...")
+
+4. Section 3: System Description — "Trust Services Categories and Related
+   Criteria" subsection lists categories in scope
+
+5. Section 4: Categories, Criteria, and Related Controls — if accessible,
+   the Availability section header and A1.x criteria confirm inclusion
+
+Priority order: Section 1 (auditor's report) is the most authoritative since
+it is the auditor's own statement of scope. Cover page and TOC are acceptable
+alternatives when the full report is not accessible.
 
 ### Why is this important
 
-The requirement for both Security and Availability trust centers ensures comprehensive coverage of critical operational concerns for cloud-hosted solutions. Security validates that data protection and access controls are operating effectively. Availability validates that uptime, reliability, and performance controls meet defined commitments. Together they provide assurance that the partner's solution is both secure and reliably accessible.
+The requirement for both Security and Availability trust centers ensures
+comprehensive coverage of critical operational concerns for cloud-hosted
+solutions. Security validates that data protection and access controls are
+operating effectively. Availability validates that uptime, reliability, and
+performance controls meet defined commitments — specifically:
+
+- A1.1: Capacity management and monitoring
+- A1.2: Recovery planning (backups and recovery infrastructure)
+- A1.3: Recovery testing
+
+Together they provide assurance that the partner's solution is both secure
+and reliably accessible.
 
 ### Edge Cases
 
-- Both must be present - having only one is insufficient
-- Other trust centers (Processing Integrity, Confidentiality, Privacy) are not required but may be present
-- Look for trust center coverage in the auditor's report and scope sections
+- Both trust centers must be present — having only one is insufficient
+- Confirming Availability in scope via cover page, TOC, or auditor's report
+  is sufficient — full Section 4 verification of individual A1.x controls
+  is not required
+- If Availability is in scope, A1.1, A1.2, and A1.3 are necessarily included
+  as they are the only criteria in that category
+- Other trust centers (Processing Integrity, Confidentiality, Privacy) are not
+  required but may be present
+- A truncated or partial report can still pass this control as long as scope
+  confirmation is available from one of the five verification points above
 
-### Examples
+### Technical Enablement Resources
 
-Acceptable:
-- Trust Centers audited: Security, Availability
-- Trust Centers audited: Security, Availability, Confidentiality (extra is fine)
+- SOC 2 Trust Services Criteria
+  (https://www.aicpa.org/interestareas/frc/assuranceadvisoryservices/trustservices.html)
+- AWS SOC reports (https://aws.amazon.com/compliance/soc-faqs/)
 
-Unacceptable:
-- Security OR Availability trust center missing from audit
+### Example of Acceptable Response
+
+- Cover page states: "Controls Relevant to Security, Availability, and
+  Confidentiality" — both trust centers confirmed
+- Auditor's report scope states: "...trust services criteria relevant to
+  Security, Availability, Processing Integrity, and Confidentiality"
+- Table of Contents includes "Availability Category and Criteria" section
+- Trust Centers audited: Security, Availability (extra categories are fine)
+
+### Example of Unacceptable Response
+
+- Cover page states: "Controls Relevant to Security and Confidentiality"
+  (Availability missing)
+- Auditor's report scope only references Security (no Availability)
+- TOC has no Availability section listed
 - Only Security present without Availability
 - Only Availability present without Security
-- Only Processing Integrity and Confidentiality (neither required one present)
+- Cannot determine trust centers from any available section of the report

@@ -52,7 +52,7 @@ describe('CalibrationGuideRegistry', () => {
     it('returns the WAFR-FTR-001 section from the WAFR guide', () => {
       const section = registry.getSection('wafr', 'WAFR-FTR-001');
       expect(section).toContain('WAFR-FTR-001');
-      expect(section).toContain('Authorized Reviewer');
+      expect(section).toContain('12 Months');
       expect(section).not.toContain('## WAFR-FTR-002');
       expect(section).not.toContain('## WAFR-FTR-003');
     });
