@@ -1,0 +1,54 @@
+name: Build and Release Binaries
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: node18-linux-x64
+            artifact: ftr-eval-mcp-linux-x64
+          - os: ubuntu-latest
+            target: node18-linux-arm64
+            artifact: ftr-eval-mcp-linux-arm64
+          - os: macos-latest
+            target: node18-macos-arm64
+            artifact: ftr-eval-mcp-macos-arm64
+          - os: macos-13
+            target: node18-macos-x64
+            artifact: ftr-eval-mcp-macos-x64
+          - os: windows-latest
+            target: node18-win-x64
+            artifact: ftr-eval-mcp-win-x64.exe
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build TypeScript
+        run: npm run build
+
+      - name: Build binary
+        run: npx @yao-pkg/pkg . --target ${{ matrix.target }} --output binaries/${{ matrix.artifact }}
+
+      - name: Upload binary to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: binaries/${{ matrix.artifact }}
