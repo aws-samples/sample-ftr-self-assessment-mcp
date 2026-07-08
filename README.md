@@ -59,7 +59,7 @@ git clone https://github.com/aws-samples/sample-ftr-self-assessment-mcp.git
 cd sample-ftr-self-assessment-mcp
 npm install
 npm run build
-npm run link
+npm link          # optional — registers 'ftr-eval-mcp' as a global command
 ```
 
 Then run via Node directly:
