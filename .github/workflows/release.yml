@@ -16,6 +16,9 @@ jobs:
           - os: ubuntu-22.04
             target: node22-linux-x64
             artifact: ftr-eval-mcp-linux-x64
+          - os: ubuntu-22.04
+            target: node22-linux-arm64
+            artifact: ftr-eval-mcp-linux-arm64
           - os: macos-14
             target: node22-macos-arm64
             artifact: ftr-eval-mcp-macos-arm64
