@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "ftr-eval-mcp": {
+      "command": "ftr-eval-mcp",
+      "args": ["serve"],
+      "env": {
+        "FTR_AWS_REGION": "us-east-1"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "get_prompt_template",
+        "get_controls",
+        "get_calibration_guide",
+        "parse_pdf",
+        "evaluate_submission"
+      ]
+    }
+  }
+}

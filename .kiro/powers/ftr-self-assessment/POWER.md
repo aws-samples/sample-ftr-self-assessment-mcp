@@ -1,6 +1,9 @@
 ---
-name: FTR Self-Assessment
-description: Evaluates AWS Foundational Technical Review (FTR) partner submissions — SOC 2 Type II reports and Well-Architected Framework Reviews — against defined controls, producing automated PASS/FAIL decisions with detailed reasoning.
+name: "ftr-self-assessment"
+displayName: "FTR Self-Assessment"
+description: "Evaluates AWS Foundational Technical Review (FTR) partner submissions, including SOC 2 Type II reports and Well-Architected Framework Reviews, against defined checks, producing automated PASS/FAIL decisions with detailed reasoning."
+keywords: ["ftr", "foundational technical review", "soc2", "wafr", "well-architected", "partner assessment", "compliance", "audit", "security pillar", "reliability pillar", "operational excellence", "hri", "high-risk issues"]
+author: "Xavier Rogers"
 ---
 
 # FTR Partner Self-Assessment Power
@@ -63,9 +66,12 @@ Decision: PASS or FAIL
 - [SOC 2 Trust Services Criteria (AICPA)](https://www.aicpa.org/interestareas/frc/assuranceadvisoryservices/trustservices.html)
 - [AWS SOC Reports FAQ](https://aws.amazon.com/compliance/soc-faqs/)
 
-## License and support
+## License
 
-This power is part of [sample-ftr-self-assessment-mcp](https://github.com/aws-samples/sample-ftr-self-assessment-mcp) (MIT-0).
+This power is part of [ftr-self-assessment-mcp](https://github.com/awslabs/ftr-self-assessment-mcp) (MIT-0) and [samples-ftr-self-assessment-mcp](https://github.com/aws-samples/sample-ftr-self-assessment-mcp) (MIT-0).
 
 - [Privacy Policy](https://aws.amazon.com/privacy/)
-- [Support](https://github.com/aws-samples/sample-ftr-self-assessment-mcp/issues)
+
+## Issues
+
+https://github.com/awslabs/ftr-self-assessment-mcp/issues
